@@ -12,14 +12,22 @@ namespace WaterManagementSystem.Api.Controllers
         WaterManagementDataContext dc = new WaterManagementDataContext(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=WaterManagementSystemDB;Integrated Security=True");
 
         // GET: api/Customers
-        public List<Customer> Get()
+        public IHttpActionResult Get()
         {
             var list = from customer
                         in dc.Customers
-                       select customer;
+                       select new  //obj temp loop
+                       {
+                           customer.CustomerId,
+                           customer.Name,
+                           customer.Address,
+                           customer.Phone,
+                           customer.TaxNumber,
+                           customer.Email,
+                           customer.IsActive
+                       };
 
-            return list.ToList();
-
+            return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, list.ToList()));
         }
 
         // GET: api/Customers/5
@@ -29,7 +37,18 @@ namespace WaterManagementSystem.Api.Controllers
 
             if (customer != null)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, customer));
+                var customerData = new
+                {
+                    customer.CustomerId,
+                    customer.Name,
+                    customer.Address,
+                    customer.Phone,
+                    customer.TaxNumber,
+                    customer.Email,
+                    customer.IsActive
+                };
+
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, customerData));
             }
 
             return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Customer not found"));
@@ -43,7 +62,7 @@ namespace WaterManagementSystem.Api.Controllers
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid customer data."));
             }
 
-
+            //o any pergunta se existe alguém com esse nif. E responde true para existe e false nao existe
             bool customerExists = dc.Customers.Any(c => c.TaxNumber == newCustomer.TaxNumber);
 
             if (customerExists)
@@ -75,7 +94,7 @@ namespace WaterManagementSystem.Api.Controllers
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid customer data."));
             }
 
-            Customer customer = dc.Customers.FirstOrDefault(c => c.CustomerId == id);
+            Customer customer = dc.Customers.SingleOrDefault(c => c.CustomerId == id);
 
             if (customer == null)
             {
@@ -111,7 +130,7 @@ namespace WaterManagementSystem.Api.Controllers
         // DELETE: api/Customers/5
         public IHttpActionResult Delete(int id)
         {
-            Customer customer = dc.Customers.FirstOrDefault(c => c.CustomerId == id);
+            Customer customer = dc.Customers.SingleOrDefault(c => c.CustomerId == id);
 
             if (customer == null)
             {
