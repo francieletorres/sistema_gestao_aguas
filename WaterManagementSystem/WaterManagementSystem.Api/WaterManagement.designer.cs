@@ -23,7 +23,7 @@ namespace WaterManagementSystem.Api
 	
 	
 	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="WaterManagementSystemDB")]
-	public partial class WaterManagementDataContextDataContext : System.Data.Linq.DataContext
+	public partial class WaterManagementDataContext : System.Data.Linq.DataContext
 	{
 		
 		private static System.Data.Linq.Mapping.MappingSource mappingSource = new AttributeMappingSource();
@@ -44,31 +44,31 @@ namespace WaterManagementSystem.Api
     partial void DeleteMeter(Meter instance);
     #endregion
 		
-		public WaterManagementDataContextDataContext(string connection) : 
+		public WaterManagementDataContext(string connection) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public WaterManagementDataContextDataContext(System.Data.IDbConnection connection) : 
+		public WaterManagementDataContext(System.Data.IDbConnection connection) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public WaterManagementDataContextDataContext(string connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
+		public WaterManagementDataContext(string connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public WaterManagementDataContextDataContext(System.Data.IDbConnection connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
+		public WaterManagementDataContext(System.Data.IDbConnection connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
-		
-		public System.Data.Linq.Table<Consumption> Consumptions
+
+        public System.Data.Linq.Table<Consumption> Consumptions
 		{
 			get
 			{

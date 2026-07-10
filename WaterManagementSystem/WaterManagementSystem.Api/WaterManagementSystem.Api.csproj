@@ -156,16 +156,17 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WaterManagementDataContext.designer.cs">
+    <Compile Include="WaterManagement.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>WaterManagementDataContext.dbml</DependentUpon>
+      <DependentUpon>WaterManagement.dbml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -233,13 +234,13 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="WaterManagementDataContext.dbml">
+    <Content Include="WaterManagement.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>WaterManagementDataContext.designer.cs</LastGenOutput>
+      <LastGenOutput>WaterManagement.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </Content>
-    <None Include="WaterManagementDataContext.dbml.layout">
-      <DependentUpon>WaterManagementDataContext.dbml</DependentUpon>
+    <None Include="WaterManagement.dbml.layout">
+      <DependentUpon>WaterManagement.dbml</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
