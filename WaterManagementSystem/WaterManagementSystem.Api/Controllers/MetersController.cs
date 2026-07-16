@@ -56,7 +56,7 @@ namespace WaterManagementSystem.Api.Controllers
         {
             if (newMeter == null)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid meter data!"));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid meter data"));
             }
 
             //procuso um customerid que seja igual ao customerId que veio do meter
