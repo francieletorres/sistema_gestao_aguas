@@ -66,6 +66,12 @@ namespace WaterManagementSystem.Api.Controllers
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid consumption data."));
             }
 
+            // nao pode inserir leitura para o futuro
+            if (newConsumption.ReadingDate.Date > DateTime.Now.Date)
+            {
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "Reading date cannot be in the future."));
+            }
+
             Meter meter = dc.Meters.FirstOrDefault(m => m.MeterId == newConsumption.MeterId);
 
             //para nao criar um consumo com contador vazio
@@ -140,6 +146,11 @@ namespace WaterManagementSystem.Api.Controllers
             if (updateConsumption == null)
             {
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid consumption data."));
+            }
+
+            if (updateConsumption.ReadingDate.Date > DateTime.Now.Date)
+            {
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "Reading date cannot be in the future."));
             }
 
             //buscar o id da requisição
