@@ -80,14 +80,9 @@ namespace WaterManagementSystem.Api.Controllers
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Meter not found."));
             }
 
-            if (!meter.IsActive)
+            if (!CanRegisterConsumption(meter))
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "Inactive meters cannot register new consumptions."));
-            }
-
-            if (!meter.Customer.IsActive)
-            {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "Inactive customers cannot register new consumptions."));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "Inactive meters or customers cannot register new consumptions."));
             }
 
             //leitura nao pode ser negativa
@@ -104,20 +99,9 @@ namespace WaterManagementSystem.Api.Controllers
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "A reading already exists for this meter on this date."));
             }
 
-            //busca leitura anterior
-            Consumption lastConsumption = dc.Consumptions.Where(c => c.MeterId == newConsumption.MeterId && c.ReadingDate < newConsumption.ReadingDate)
-                .OrderByDescending(c => c.ReadingDate).FirstOrDefault();
+            // Busca a leitura anterior do contador e calcula o volume consumido
+            newConsumption.ConsumedVolume = CalculateConsumedVolume(newConsumption.MeterId, newConsumption.MeterReading, newConsumption.ReadingDate);
 
-            //calculo do volumeConsumido
-            if (lastConsumption != null)
-            {
-                newConsumption.ConsumedVolume = newConsumption.MeterReading - lastConsumption.MeterReading;
-
-            }
-            else
-            {
-                newConsumption.ConsumedVolume = newConsumption.MeterReading;
-            }
 
             //volume consumido nao pode ser negativo
             if (newConsumption.ConsumedVolume < 0)
@@ -140,6 +124,30 @@ namespace WaterManagementSystem.Api.Controllers
             return ResponseMessage(Request.CreateResponse(HttpStatusCode.Created, "Consumption created successfully."));
         }
 
+        private bool CanRegisterConsumption(Meter meter)
+        {
+            if (meter.IsActive == true && meter.Customer.IsActive == true)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private decimal CalculateConsumedVolume(int meterId, int meterReading, DateTime readingDate)
+        {
+            Consumption lastConsumption = dc.Consumptions.Where(c => c.MeterId == meterId && c.ReadingDate < readingDate)
+           .OrderByDescending(c => c.ReadingDate).FirstOrDefault();
+
+            if (lastConsumption != null)
+            {
+                return meterReading - lastConsumption.MeterReading;
+            }
+
+            return meterReading;
+        }
+
+
         // PUT: api/Consumptions/5
         public IHttpActionResult Put(int id, [FromBody] Consumption updateConsumption)
         {
@@ -156,7 +164,7 @@ namespace WaterManagementSystem.Api.Controllers
             //buscar o id da requisição
             Consumption consumption = dc.Consumptions.FirstOrDefault(c => c.ConsumptionId == id);
 
-            if(consumption == null)
+            if (consumption == null)
             {
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Consumption not found."));
             }
@@ -168,18 +176,19 @@ namespace WaterManagementSystem.Api.Controllers
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Meter not found."));
             }
 
-            if (!meter.IsActive)
+            if (!CanRegisterConsumption(meter))
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "Inactive meters cannot register new consumptions."));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "Inactive meters or customers cannot register new consumptions."));
             }
 
-            if (!meter.Customer.IsActive)
+            //leitura nao pode ser negativa
+            if (updateConsumption.MeterReading < 0)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "Inactive customers cannot register new consumptions."));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "Meter reading cannot be negative."));
             }
 
             //verifica se existe outra leitura para esse mesmo meterId na mesma data
-            bool readingAlreadyExists = dc.Consumptions.Any(c => c.MeterId == updateConsumption.MeterId 
+            bool readingAlreadyExists = dc.Consumptions.Any(c => c.MeterId == updateConsumption.MeterId
             && c.ReadingDate == updateConsumption.ReadingDate && c.ConsumptionId != id);
 
             if (readingAlreadyExists)
@@ -187,20 +196,8 @@ namespace WaterManagementSystem.Api.Controllers
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "A reading already exists for this meter on this date."));
             }
 
-            //busca leitura anterior, mas ignora o próprio consumo editado
-            Consumption lastConsumption = dc.Consumptions.Where(c => c.MeterId == updateConsumption.MeterId && c.ReadingDate < updateConsumption.ReadingDate &&
-               c.ConsumptionId != id) .OrderByDescending(c => c.ReadingDate).FirstOrDefault();
-
-            //calculo do volumeConsumido
-            if (lastConsumption != null)
-            {
-                updateConsumption.ConsumedVolume = updateConsumption.MeterReading - lastConsumption.MeterReading;
-
-            }
-            else
-            {
-                updateConsumption.ConsumedVolume = updateConsumption.MeterReading;
-            }
+            // Busca a leitura anterior, ignora o próprio consumo editado e calcula o volume consumido
+            updateConsumption.ConsumedVolume = CalculateConsumedVolumeForEdit(updateConsumption.MeterId, updateConsumption.MeterReading, updateConsumption.ReadingDate, id);
 
             //volume consumido nao pode ser negativo
             if (updateConsumption.ConsumedVolume < 0)
@@ -227,6 +224,21 @@ namespace WaterManagementSystem.Api.Controllers
             return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, "Consumption updated successfully."));
         }
 
+
+        private decimal CalculateConsumedVolumeForEdit(int meterId, int meterReading, DateTime readingDate, int consumptionId)
+        {
+            Consumption lastConsumption = dc.Consumptions.Where(c => c.MeterId == meterId && c.ReadingDate < readingDate && c.ConsumptionId != consumptionId)
+                .OrderByDescending(c => c.ReadingDate).FirstOrDefault();
+
+            if (lastConsumption != null)
+            {
+                return meterReading - lastConsumption.MeterReading;
+            }
+
+            return meterReading;
+        }
+
+
         // DELETE: api/Consumptions/5
         public IHttpActionResult Delete(int id)
         {
@@ -240,7 +252,7 @@ namespace WaterManagementSystem.Api.Controllers
 
             bool consumptionHasInvoice = dc.Invoices.Any(i => i.ConsumptionId == id);
 
-           if (consumptionHasInvoice)
+            if (consumptionHasInvoice)
             {
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "Consumption cannot be deleted because there is an invoice associated."));
             }
