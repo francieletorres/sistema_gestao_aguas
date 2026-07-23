@@ -1,0 +1,263 @@
+﻿<Window x:Class="WaterManagementSystem.Wpf.Windows.CustomerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WaterManagementSystem.Wpf.Windows"
+        mc:Ignorable="d"
+        Title="CustomerWindow"  
+        Width="1024"
+        Height="768"
+        MinHeight="650"
+        MinWidth="1000"
+        WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded">
+    <Grid Background="White">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="140"/>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="180"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- CABEÇALHO AZUL -->
+        <Grid Grid.Row="0"
+              Background="#173B63">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="260"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Image Grid.Column="0"
+                   Source="/WaterManagementSystem.Wpf;component/Images/logo.png"
+                   Width="120"
+                   Height="120"
+                   Stretch="Uniform"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+
+            <TextBlock Text="CONECTA VOCÊ AO QUE É ESSENCIAL"
+                       Grid.Column="1"
+                       Foreground="White"
+                       FontFamily="Century"
+                       FontSize="22"
+                       FontWeight="SemiBold"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center" 
+                       Margin="82,0,0,0"/>
+        </Grid>
+
+        <!-- TÍTULO -->
+        <TextBlock Grid.Row="1"
+                   Text="Cadastro Cliente"
+                   FontSize="28"
+                   FontWeight="SemiBold"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Margin="0,15,0,0"/>
+
+        <!-- FORMULÁRIO -->
+        <Grid Grid.Row="2"
+              Width="860"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="90"/>
+                <ColumnDefinition Width="320"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="320"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Nome -->
+            <Label Grid.Row="0"
+                   Grid.Column="0"
+                   Content="Nome:"
+                   FontSize="16"
+                   VerticalAlignment="Center"/>
+
+            <TextBox x:Name="txtName"
+                     Grid.Row="0"
+                     Grid.Column="1"
+                     Height="30"
+                     FontSize="15"
+                     VerticalAlignment="Center"/>
+
+            <!-- Contacto -->
+            <Label Grid.Row="0"
+                   Grid.Column="2"
+                   Content="Contacto:"
+                   FontSize="16"
+                   VerticalAlignment="Center"
+                   Margin="15,0,0,0"/>
+
+            <TextBox x:Name="txtPhone"
+                     Grid.Row="0"
+                     Grid.Column="3"
+                     Height="30"
+                     FontSize="15"
+                     VerticalAlignment="Center"/>
+
+            <!-- Morada -->
+            <Label Grid.Row="1"
+                   Grid.Column="0"
+                   Content="Morada:"
+                   FontSize="16"
+                   VerticalAlignment="Center"/>
+
+            <TextBox x:Name="txtAddress"
+                     Grid.Row="1"
+                     Grid.Column="1"
+                     Height="30"
+                     FontSize="15"
+                     VerticalAlignment="Center"/>
+
+            <!-- NIF -->
+            <Label Grid.Row="1"
+                   Grid.Column="2"
+                   Content="NIF:"
+                   FontSize="16"
+                   VerticalAlignment="Center"
+                   Margin="15,0,0,0"/>
+
+            <TextBox x:Name="txtTaxNumber"
+                     Grid.Row="1"
+                     Grid.Column="3"
+                     Height="30"
+                     FontSize="15"
+                     VerticalAlignment="Center"/>
+
+            <!-- Email -->
+            <Label Grid.Row="2"
+                   Grid.Column="0"
+                   Content="Email:"
+                   FontSize="16"
+                   VerticalAlignment="Center"/>
+
+            <TextBox x:Name="txtEmail"
+                     Grid.Row="2"
+                     Grid.Column="1"
+                     Grid.ColumnSpan="3"
+                     Height="30"
+                     FontSize="15"
+                     VerticalAlignment="Center"/>
+        </Grid>
+
+        <!-- BOTÕES DO FORMULÁRIO -->
+        <StackPanel Grid.Row="3"
+            Width="860"
+            Orientation="Horizontal"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            FlowDirection="RightToLeft">
+
+            <Button x:Name="btnAdd"
+                    Content="Registar"
+                    Width="120"
+                    Height="38"
+                    FontSize="16"
+                    Margin="10"
+                    Background="#173B63"
+                    Foreground="White"
+                    BorderBrush="#173B63"/>
+
+            <Button x:Name="btnClear"
+                    Content="Limpar"
+                    Width="120"
+                    Height="38"
+                    FontSize="16"
+                    Margin="10"
+                    Background="#173B63"
+                    Foreground="White"
+                    BorderBrush="#173B63"/>
+        </StackPanel>
+
+        <!-- ÁREA DA TABELA + BOTÕES LATERAIS -->
+        <Grid Grid.Row="4"
+              Width="860"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Top"
+              Margin="0,10,0,0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="690"/>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="140"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- DATAGRID -->
+            <DataGrid x:Name="dgCustomers"
+              Grid.Column="0"
+              AutoGenerateColumns="False"
+              IsReadOnly="True"
+              SelectionMode="Single"
+              Height="220"
+              VerticalAlignment="Top">
+
+                <DataGrid.Columns>
+
+                    <DataGridTextColumn Header="Id"
+                                Binding="{Binding CustomerId}"
+                                Width="*"/>
+
+                    <DataGridTextColumn Header="Nome"
+                                Binding="{Binding Name}"
+                                Width="*"/>
+
+                    <DataGridTextColumn Header="Contacto"
+                                Binding="{Binding Phone}"
+                                Width="*"/>
+
+                    <DataGridTextColumn Header="NIF"
+                                Binding="{Binding TaxNumber}"
+                                Width="*"/>
+
+                    <DataGridTextColumn Header="Email"
+                                Binding="{Binding Email}"
+                                Width="*"/>
+
+                    <DataGridCheckBoxColumn Header="Ativo"
+                                Binding="{Binding IsActive}"
+                                Width="*"/>
+
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <!-- BOTÕES LATERAIS -->
+            <StackPanel Grid.Column="2"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        Margin="0,20,0,0">
+
+                <Button x:Name="btnEdit"
+                        Content="Editar&#x0a;Cliente"
+                        Width="120"
+                        Height="60"
+                        FontSize="16"
+                        Margin="0,0,0,15"
+                        Background="#173B63"
+                        Foreground="White"
+                        BorderBrush="#173B63" RenderTransformOrigin="0.442,0.867"/>
+
+                <Button x:Name="btnDelete"
+                        Content="Apagar&#x0a;Cliente"
+                        Width="120"
+                        Height="60"
+                        FontSize="16"
+                        Background="#173B63"
+                        Foreground="White"
+                        BorderBrush="#173B63"/>
+            </StackPanel>
+
+        </Grid>
+    </Grid>
+</Window>

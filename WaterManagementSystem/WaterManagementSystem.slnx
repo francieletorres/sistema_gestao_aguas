@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="WaterManagementSystem.Api/WaterManagementSystem.Api.csproj" Id="0d1b3cdf-c426-4c0f-b4d1-9c2e18402a24" />
+  <Project Path="WaterManagementSystem.Wpf/WaterManagementSystem.Wpf.csproj" Id="cc6785f5-e6cd-457c-9f96-1adb8bf18d5c" />
 </Solution>
