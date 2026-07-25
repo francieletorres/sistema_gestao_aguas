@@ -39,6 +39,7 @@
             <RowDefinition Height="140"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="130"/>
+            <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
 
 
@@ -100,7 +101,7 @@
                 <Button x:Name="btnCustomers"
                         Style="{StaticResource MenuCardButtonStyle}"
                         Click="btnCustomers_Click">
-                        
+
                     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                         <Image Source="/WaterManagementSystem.Wpf;component/Images/Customer.png"
                                Width="55"
@@ -173,8 +174,18 @@
                                    Width="120"/>
                     </StackPanel>
                 </Button>
-
             </StackPanel>
-        </Grid>
+                </Grid>
+                <Border Grid.Row="3"
+                    Background="White"
+                    BorderBrush="#D9D9D9"
+                    BorderThickness="0,1,0,0">
+
+            <TextBlock Text="© 2026 Aqualis. All rights reserved."
+                    Foreground="#173B63"
+                    FontSize="12"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"/>
+        </Border>
     </Grid>
 </Window>

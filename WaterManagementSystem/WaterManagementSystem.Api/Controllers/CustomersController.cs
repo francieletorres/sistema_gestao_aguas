@@ -145,6 +145,11 @@ namespace WaterManagementSystem.Api.Controllers
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "Customer cannot be deleted because there are consumptions associated."));
             }
 
+            //procura os contadores que pertecem ao cliente 
+            var customerMeters = dc.Meters.Where(m => m.CustomerId == id);
+            //E manda apagalos também
+            dc.Meters.DeleteAllOnSubmit(customerMeters);
+
             dc.Customers.DeleteOnSubmit(customer);
 
             try

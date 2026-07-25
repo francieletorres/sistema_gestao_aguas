@@ -105,7 +105,8 @@
                      Grid.Column="3"
                      Height="30"
                      FontSize="15"
-                     VerticalAlignment="Center"/>
+                     VerticalAlignment="Center"
+                     MaxLength="9"/>
 
             <!-- Morada -->
             <Label Grid.Row="1"
@@ -134,7 +135,8 @@
                      Grid.Column="3"
                      Height="30"
                      FontSize="15"
-                     VerticalAlignment="Center"/>
+                     VerticalAlignment="Center"
+                     MaxLength="9"/>
 
             <!-- Email -->
             <Label Grid.Row="2"
@@ -162,23 +164,27 @@
 
             <Button x:Name="btnAdd"
                     Content="Registar"
+                    Click="btnAdd_Click"
                     Width="120"
                     Height="38"
                     FontSize="16"
                     Margin="10"
                     Background="#173B63"
                     Foreground="White"
-                    BorderBrush="#173B63"/>
+                    BorderBrush="#173B63"
+                    Cursor="Hand"/>
 
             <Button x:Name="btnClear"
                     Content="Limpar"
+                    Click="btnClear_Click"
                     Width="120"
                     Height="38"
                     FontSize="16"
                     Margin="10"
                     Background="#173B63"
                     Foreground="White"
-                    BorderBrush="#173B63"/>
+                    BorderBrush="#173B63"
+                    Cursor="Hand"/>
         </StackPanel>
 
         <!-- ÁREA DA TABELA + BOTÕES LATERAIS -->
@@ -240,22 +246,27 @@
 
                 <Button x:Name="btnEdit"
                         Content="Editar&#x0a;Cliente"
+                        Click="btnEdit_Click"
                         Width="120"
                         Height="60"
                         FontSize="16"
                         Margin="0,0,0,15"
                         Background="#173B63"
                         Foreground="White"
-                        BorderBrush="#173B63" RenderTransformOrigin="0.442,0.867"/>
+                        BorderBrush="#173B63" 
+                        RenderTransformOrigin="0.442,0.867"
+                        Cursor="Hand"/>
 
                 <Button x:Name="btnDelete"
                         Content="Apagar&#x0a;Cliente"
+                        Click="btnDelete_Click"
                         Width="120"
                         Height="60"
                         FontSize="16"
                         Background="#173B63"
                         Foreground="White"
-                        BorderBrush="#173B63"/>
+                        BorderBrush="#173B63"
+                        Cursor="Hand"/>
             </StackPanel>
 
         </Grid>
