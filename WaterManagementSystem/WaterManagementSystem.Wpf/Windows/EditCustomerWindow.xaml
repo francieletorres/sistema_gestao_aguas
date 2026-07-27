@@ -6,218 +6,251 @@
         xmlns:local="clr-namespace:WaterManagementSystem.Wpf.Windows"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="Editar Cliente" 
+        Title="Edit Customer" 
         Width="1024"
         Height="768"
         MinHeight="650"
-        MinWidth="1000">
-    <Grid Background="White">
+        MinWidth="1000"
+        Background="#F5F7FA">
+    <Grid>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="185"/>
+            <RowDefinition Height="105"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="80"/>
+            <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
 
-        <Image Grid.Row="0"
-               Grid.RowSpan="3"
-               Source="/WaterManagementSystem.Wpf;component/Images/back2.png"
-               Height="210"
-               Stretch="Uniform"
-               HorizontalAlignment="Stretch"
-               VerticalAlignment="Bottom"
-               Opacity="0.80"
-               IsHitTestVisible="False"
-               Margin="0,0,0,10"/>
+        <Border Grid.Row="0"
+                Background="#173B63">
 
-        <!-- Cabeçalho -->
-        <StackPanel Grid.Row="0"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Margin="0,20,0,0">
+            <Grid Margin="35,0">
 
-            <Image Source="/WaterManagementSystem.Wpf;component/Images/logoAzul1.png"
-                   Width="120"
-                   Height="120"
-                   Stretch="Uniform"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="170"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-            <TextBlock Text="Editar Cliente"
-                       Foreground="Black"
-                       FontSize="25"
-                       FontWeight="SemiBold"
+                <Image Grid.Column="0"
+                       Source="/WaterManagementSystem.Wpf;component/Images/logo.png"
+                       Width="100"
+                       Height="100"
+                       Stretch="Uniform"
                        HorizontalAlignment="Center"
-                       Margin="0,6,0,0"/>
-        </StackPanel>
+                       VerticalAlignment="Center"/>
 
-        <!-- Formulário -->
+                <StackPanel Grid.Column="1"
+                            Margin="20,0,0,0"
+                            VerticalAlignment="Center">
+
+                    <TextBlock Text="Editar Cliente"
+                               FontSize="23"
+                               FontWeight="SemiBold"
+                               Foreground="White"/>
+
+                    <TextBlock Text="Atualização dos dados do cliente"
+                               Margin="0,4,0,0"
+                               FontSize="14"
+                               Foreground="#DCE7F2"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
         <Grid Grid.Row="1"
-              Width="650"
-              HorizontalAlignment="Center"
-              VerticalAlignment="Top"
-              Margin="0,15,0,0">
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="175"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+              Margin="100,35,100,35">
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="58"/>
-                <RowDefinition Height="58"/>
-                <RowDefinition Height="58"/>
-                <RowDefinition Height="58"/>
-                <RowDefinition Height="58"/>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="75"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="18"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <!-- Nome -->
-            <Label Grid.Row="0"
-                   Grid.Column="0"
-                   Content="Nome:"
-                   FontSize="16"
-                   Foreground="Black"
-                   VerticalAlignment="Center"/>
+            <StackPanel Grid.Row="0">
 
-            <TextBox x:Name="txtName"
-                     Grid.Row="0"
-                     Grid.Column="1"
-                     Height="35"
-                     FontSize="15"
-                     Padding="7,3"
-                     BorderThickness="1"
-                     VerticalAlignment="Center"/>
+                <TextBlock Text="Editar Cliente"
+                           FontSize="25"
+                           FontWeight="SemiBold"
+                           Foreground="#1D2C3C"/>
 
-            <!-- Morada -->
-            <Label Grid.Row="1"
-                   Grid.Column="0"
-                   Content="Morada:"
-                   FontSize="16"
-                   Foreground="Black"
-                   VerticalAlignment="Center"/>
-
-            <TextBox x:Name="txtAddress"
-                     Grid.Row="1"
-                     Grid.Column="1"
-                     Height="35"
-                     FontSize="15"
-                     Padding="7,3"
-                     BorderThickness="1"
-                     VerticalAlignment="Center"/>
-
-            <!-- Contacto -->
-            <Label Grid.Row="2"
-                   Grid.Column="0"
-                   Content="Contacto:"
-                   FontSize="16"
-                   Foreground="Black"
-                   VerticalAlignment="Center"/>
-
-            <TextBox x:Name="txtPhone"
-                     Grid.Row="2"
-                     Grid.Column="1"
-                     Height="35"
-                     FontSize="15"
-                     Padding="7,3"
-                     MaxLength="9"
-                     BorderThickness="1"
-                     VerticalAlignment="Center"/>
-
-            <!-- NIF -->
-            <Label Grid.Row="3"
-                   Grid.Column="0"
-                   Content="NIF:"
-                   FontSize="16"
-                   Foreground="Black"
-                   VerticalAlignment="Center"/>
-
-            <TextBox x:Name="txtTaxNumber"
-                     Grid.Row="3"
-                     Grid.Column="1"
-                     Height="35"
-                     FontSize="15"
-                     Padding="7,3"
-                     MaxLength="9"
-                     BorderThickness="1"
-                     VerticalAlignment="Center"/>
-
-            <!-- Email -->
-            <Label Grid.Row="4"
-                   Grid.Column="0"
-                   Content="Email:"
-                   FontSize="16"
-                   Foreground="Black"
-                   VerticalAlignment="Center"/>
-
-            <TextBox x:Name="txtEmail"
-                     Grid.Row="4"
-                     Grid.Column="1"
-                     Height="35"
-                     FontSize="15"
-                     Padding="7,3"
-                     BorderThickness="1"
-                     VerticalAlignment="Center"/>
-
-            <!-- Estado -->
-            <Label Grid.Row="5"
-                   Grid.Column="0"
-                   Content="Estado do cliente:"
-                   FontSize="16"
-                   Foreground="Black"
-                   VerticalAlignment="Center"/>
-
-            <CheckBox x:Name="chkIsActive"
-                      Grid.Row="5"
-                      Grid.Column="1"
-                      Content="Ativo"
-                      FontSize="16"
-                      Foreground="Black"
-                      VerticalAlignment="Center"/>
-
-            <!-- Botões -->
-            <StackPanel Grid.Row="6"
-                        Grid.Column="1"
-                        Orientation="Horizontal"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Bottom"
-                        Margin="0,15,0,0">
-
-                <Button x:Name="btnCancel"
-                        Content="Cancelar"
-                        Click="btnCancel_Click"
-                        Width="150"
-                        Height="48"
-                        FontSize="17"
-                        Foreground="White"
-                        Background="#173B63"
-                        BorderBrush="#173B63"
-                        BorderThickness="1"
-                        Cursor="Hand"
-                        Margin="0,0,25,0"/>
-
-                <Button x:Name="btnSave"
-                        Content="Guardar"
-                        Click="btnSave_Click"
-                        Width="150"
-                        Height="48"
-                        FontSize="17"
-                        Foreground="White"
-                        Background="#173B63"
-                        BorderBrush="#173B63"
-                        BorderThickness="1"
-                        Cursor="Hand"/>
-
+                <TextBlock Text="Altere os dados necessários e guarde as modificações."
+                           Margin="0,4,0,0"
+                           FontSize="14"
+                           Foreground="#677482"/>
             </StackPanel>
 
+            <Border Grid.Row="2"
+                    Padding="22"
+                    Background="White"
+                    BorderBrush="#D8DEE5"
+                    BorderThickness="1"
+                    CornerRadius="6"
+                    VerticalAlignment="Top">
+
+                <Grid>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="16"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="16"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="18"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="25"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Row="0"
+                                Grid.Column="0">
+
+                        <TextBlock Text="Nome"
+                                   Margin="0,0,0,5"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Foreground="#243447"/>
+
+                        <TextBox x:Name="txtName"
+                                 Height="34"
+                                 FontSize="14"
+                                 Padding="7,3"
+                                 VerticalContentAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="0"
+                                Grid.Column="2">
+
+                        <TextBlock Text="Contacto"
+                                   Margin="0,0,0,5"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Foreground="#243447"/>
+
+                        <TextBox x:Name="txtPhone"
+                                 Height="34"
+                                 FontSize="14"
+                                 Padding="7,3"
+                                 MaxLength="9"
+                                 VerticalContentAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2"
+                                Grid.Column="0">
+
+                        <TextBlock Text="Morada"
+                                   Margin="0,0,0,5"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Foreground="#243447"/>
+
+                        <TextBox x:Name="txtAddress"
+                                 Height="34"
+                                 FontSize="14"
+                                 Padding="7,3"
+                                 VerticalContentAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2"
+                                Grid.Column="2">
+
+                        <TextBlock Text="NIF"
+                                   Margin="0,0,0,5"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Foreground="#243447"/>
+
+                        <TextBox x:Name="txtTaxNumber"
+                                 Height="34"
+                                 FontSize="14"
+                                 Padding="7,3"
+                                 MaxLength="9"
+                                 VerticalContentAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="4"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="3">
+
+                        <TextBlock Text="Email"
+                                   Margin="0,0,0,5"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Foreground="#243447"/>
+
+                        <TextBox x:Name="txtEmail"
+                                 Height="34"
+                                 FontSize="14"
+                                 Padding="7,3"
+                                 VerticalContentAlignment="Center"/>
+                    </StackPanel>
+
+                    <Grid Grid.Row="6"
+                          Grid.Column="0"
+                          Grid.ColumnSpan="3">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0"
+                                    VerticalAlignment="Center">
+
+                            <TextBlock Text="Estado do cliente"
+                                       Margin="0,0,0,6"
+                                       FontSize="14"
+                                       FontWeight="SemiBold"
+                                       Foreground="#243447"/>
+
+                            <CheckBox x:Name="chkIsActive"
+                                      Content="Cliente ativo"
+                                      FontSize="14"
+                                      Foreground="#243447"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1"
+                                    Orientation="Horizontal"
+                                    VerticalAlignment="Bottom">
+
+                            <Button x:Name="btnCancel"
+                                    Content="Cancelar"
+                                    Click="btnCancel_Click"
+                                    Width="115"
+                                    Height="36"
+                                    Margin="0,0,10,0"
+                                    Background="#E7ECF1"
+                                    Foreground="#243447"
+                                    BorderBrush="#C5CDD5"
+                                    FontSize="14"
+                                    Cursor="Hand"/>
+
+                            <Button x:Name="btnSave"
+                                    Content="Guardar"
+                                    Click="btnSave_Click"
+                                    Width="115"
+                                    Height="36"
+                                    Background="#176B87"
+                                    Foreground="White"
+                                    BorderThickness="0"
+                                    FontSize="14"
+                                    Cursor="Hand"/>
+                        </StackPanel>
+                    </Grid>
+
+                </Grid>
+            </Border>
         </Grid>
 
-        <!-- Imagem inferior -->
-        <Image Grid.Row="2"
-               Source="/WaterManagementSystem.Wpf;component/Images/editBackground.png"
-               Stretch="Fill"
-               HorizontalAlignment="Stretch"
-               VerticalAlignment="Bottom"
-               IsHitTestVisible="False"/>
+        <Border Grid.Row="2"
+                Background="#173B63">
 
+            <TextBlock Text="Sistema de Gestão de Água"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="12"
+                       Foreground="White"/>
+        </Border>
     </Grid>
 </Window>

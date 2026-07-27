@@ -159,5 +159,199 @@ namespace WaterManagementSystem.Wpf.Services
                 };
             }
         }
+
+        public async Task<Response> GetMeters()
+        {
+            try
+            {   //envia um pedido get para buscar todos os contadores na api
+                HttpResponseMessage response = await _httpClient.GetAsync("meters"); 
+
+                //lê o contéudo json que a api devolveu
+                var result = await response.Content.ReadAsStringAsync();
+
+                //verifica se a api devolveu algum erro
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = result
+                    };
+                }
+
+                //converte o Json em uma lista de objetos meter
+                var meters = JsonConvert.DeserializeObject<List<Meter>>(result);
+
+                //devolve a lista de contadores dentro do result
+                return new Response
+                {
+                    IsSuccess = true,
+                    Result = meters
+                };
+            }
+            catch(Exception ex)
+            {
+                // Trata erros de ligação ou outros problemas.
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+
+            }
+        }
+
+        public async Task<Response> GetMetersByCustomer(int customerId)
+        {
+            try
+            {   //envia um pedido get para buscar o contador de um cliente especifico
+                HttpResponseMessage response = await _httpClient.GetAsync("meters/customer/" + customerId);
+
+                //lê o contéudo json que a api devolveu
+                var result = await response.Content.ReadAsStringAsync();
+
+                //verifica se a api devolveu algum erro
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = result
+                    };
+                }
+
+                //converte o Json em uma lista de objetos meter
+                var meters = JsonConvert.DeserializeObject<List<Meter>>(result);
+
+                //devolve a lista de contadores dentro do result
+                return new Response
+                {
+                    IsSuccess = true,
+                    Result = meters
+                };
+            }
+            catch (Exception ex)
+            {
+                // Trata erros de ligação ou outros problemas.
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+
+            }
+        }
+
+        public async Task<Response> CreateMeter(Meter meter)
+        {
+            try
+            {
+                var json = JsonConvert.SerializeObject(meter);
+
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await _httpClient.PostAsync("meters", content);
+
+                var result = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = result
+                    };
+                }
+
+                return new Response
+                {
+                    IsSuccess = true,
+                    Result = result
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
+        public async Task<Response> UpdateMeter(Meter meter)
+        {  
+            try
+            {
+                var json = JsonConvert.SerializeObject(meter);
+
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await _httpClient.PutAsync("meters/" + meter.MeterId, content);
+
+                var result = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = result
+                    };
+                }
+
+                return new Response
+                {
+                    IsSuccess = true,
+                    Result = result
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
+        public async Task<Response> DeleteMeter(int meterId)
+        {
+            try
+            {
+                HttpResponseMessage response = await _httpClient.DeleteAsync("meters/" + meterId);
+
+                var result = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = result
+                    };
+                }
+
+                return new Response
+                {
+                    IsSuccess = true,
+                    Message = result
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
     }
 }
+
+
+
+

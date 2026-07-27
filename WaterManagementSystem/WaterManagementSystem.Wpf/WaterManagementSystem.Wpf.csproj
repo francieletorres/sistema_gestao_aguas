@@ -9,8 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Images\back.png" />
-    <None Remove="Images\back2.png" />
     <None Remove="Images\Consumption.png" />
     <None Remove="Images\Customer.png" />
     <None Remove="Images\invoice.png" />
@@ -21,11 +19,6 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Images\back.png" />
-    <Resource Include="Images\back2.png" />
   </ItemGroup>
 
   <ItemGroup>

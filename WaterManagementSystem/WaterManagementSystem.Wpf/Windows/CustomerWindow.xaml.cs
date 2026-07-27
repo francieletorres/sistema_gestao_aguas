@@ -46,7 +46,9 @@ namespace WaterManagementSystem.Wpf.Windows
             }
             else
             {
-                MessageBox.Show(response.Message);
+                MessageBox.Show(response.Message, "Error",
+                       MessageBoxButton.OK,
+                       MessageBoxImage.Error);
             }
         }
 

@@ -51,6 +51,29 @@ namespace WaterManagementSystem.Api.Controllers
             return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Not found"));
         }
 
+        [HttpGet]
+        [Route("api/meters/customer/{customerId}")]
+        public IHttpActionResult GetByCustomer(int customerId)
+        {
+            var meters = dc.Meters.Where(m => m.CustomerId == customerId)
+                .Select(m => new
+                {
+                    m.MeterId,
+                    m.CustomerId,
+                    CustomerName = m.Customer.Name,
+                    m.InstallationDate,
+                    m.IsActive
+                })
+                .ToList();
+
+            if (meters.Count == 0)
+            {
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "No meter has been registered for this customer yet."));
+            }
+
+            return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK,meters));
+        }
+
         // POST: api/Meters
         public IHttpActionResult Post([FromBody] Meter newMeter)
         {
@@ -60,7 +83,13 @@ namespace WaterManagementSystem.Api.Controllers
             }
 
             //procuso um customerid que seja igual ao customerId que veio do meter
-            Customer customer = dc.Customers.SingleOrDefault(c => c.CustomerId == newMeter.CustomerId);         
+            Customer customer = dc.Customers.SingleOrDefault(c => c.CustomerId == newMeter.CustomerId);       
+            
+            //verifica se o cliente existe
+            if(customer == null)
+            {
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Customer not found"));
+            }
 
             newMeter.IsActive = true;
 

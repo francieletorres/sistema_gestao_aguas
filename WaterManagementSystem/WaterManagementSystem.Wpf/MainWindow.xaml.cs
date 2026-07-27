@@ -27,5 +27,11 @@ namespace WaterManagementSystem.Wpf
             CustomerWindow customerWindow = new CustomerWindow();
             customerWindow.ShowDialog();
         }
+
+        private void btnMeters_Click(object sender, RoutedEventArgs e)
+        {
+            MeterWindow meterWindow = new MeterWindow();
+            meterWindow.ShowDialog();
+        }
     }
 }

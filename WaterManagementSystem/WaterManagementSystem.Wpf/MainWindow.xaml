@@ -10,182 +10,269 @@
         Width="1024"
         Height="768"
         MinHeight="650"
-        MinWidth="1000">
-    <Window.Resources>
+        MinWidth="1000"
+        Background="#F5F7FA">
+    <Grid>
 
-        <Style x:Key="MenuCardButtonStyle" TargetType="Button">
-            <Setter Property="Width" Value="150"/>
-            <Setter Property="Height" Value="145"/>
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="BorderBrush" Value="#D9D9D9"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Margin" Value="18,0,18,0"/>
-            <Setter Property="Cursor" Value="Hand"/>
-        </Style>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="90"/>
+                <RowDefinition Height="225"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
 
-        <Style x:Key="HeaderButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="Foreground" Value="#173B63"/>
-            <Setter Property="BorderBrush" Value="#173B63"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Cursor" Value="Hand"/>
-        </Style>
+            <!-- CABEÇALHO -->
+            <Border Grid.Row="0"
+                Background="#173B63">
 
-    </Window.Resources>
-    <Grid Background="White">
+                <Grid Margin="45,0">
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="140"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="130"/>
-            <RowDefinition Height="35"/>
-        </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="120"/>
+                    </Grid.ColumnDefinitions>
 
+                    <StackPanel Grid.Column="0"
+                            VerticalAlignment="Center">
 
-        <Grid Grid.Row="0"
-               Background="White">
+                        <TextBlock Text="Sistema de Gestão de Água"
+                               FontSize="22"
+                               FontWeight="SemiBold"
+                               Foreground="White"/>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="230"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="190"/>
-            </Grid.ColumnDefinitions>
-
-
-            <Image Grid.Column="0"
-                   Source="/WaterManagementSystem.Wpf;component/Images/logoAzul1.png"
-                   Width="120"
-                   Height="120"
-                   Stretch="Uniform"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"/>
-
-            <TextBlock Grid.Column="1"
-                   Text="CONECTA VOCÊ AO QUE É ESSENCIAL"
-                   Foreground="#173B63"
-                   FontSize="22"
-                   FontWeight="Bold"
-                   HorizontalAlignment="Left"
-                   VerticalAlignment="Center" />
-
-            <Button x:Name="btnAbout"
-                    Grid.Column="2"
-                    Content="Sobre"
-                    Width="100"
-                    Height="48"
-                    FontSize="18"
-                    FontWeight="Bold"
-                    Foreground="#173B63"
-                    Background="White"
-                    BorderBrush="#173B63"
-                    BorderThickness="1"
-                    HorizontalAlignment="center"
-                    VerticalAlignment="Center"
-                    Margin="-20,0,0,0"/>
-        </Grid>
-
-        <!-- IMAGEM PRINCIPAL -->
-        <Grid Grid.Row="1">
-
-            <Image Source="/WaterManagementSystem.Wpf;component/Images/back.png"
-                   Stretch="UniformToFill"/>
-
-            <!-- Cards do menu -->
-            <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Bottom"
-                        Margin="0,0,0,-50">
-
-                <!-- Customers -->
-                <Button x:Name="btnCustomers"
-                        Style="{StaticResource MenuCardButtonStyle}"
-                        Click="btnCustomers_Click">
-
-                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <Image Source="/WaterManagementSystem.Wpf;component/Images/Customer.png"
-                               Width="55"
-                               Height="55"
-                               Stretch="Uniform"
-                               Margin="0,12,0,14"/>
-                        <TextBlock Text="Cadastrar Cliente"
-                                   TextAlignment="Center"
-                                   FontSize="15"
-                                   FontWeight="Bold"
-                                   Foreground="#173B63"
-                                   TextWrapping="Wrap"
-                                   Width="120"/>
+                        <TextBlock Text="Gestão de clientes, contadores, consumos e faturas"
+                               Margin="0,4,0,0"
+                               FontSize="13"
+                               Foreground="#DCE7F2"/>
                     </StackPanel>
-                </Button>
 
-                <!-- Meters -->
-                <Button x:Name="btnMeters"
-                        Style="{StaticResource MenuCardButtonStyle}">
-                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <Image Source="/WaterManagementSystem.Wpf;component/Images/meter.png"
-                               Width="60"
-                               Height="60"
-                               Stretch="Uniform"
-                               Margin="0,12,0,14"/>
-                        <TextBlock Text="Cadastrar Contador"
-                                   TextAlignment="Center"
-                                   FontSize="15"
-                                   FontWeight="Bold"
-                                   Foreground="#173B63"
-                                   TextWrapping="Wrap"
-                                   Width="120"/>
-                    </StackPanel>
-                </Button>
-
-                <!-- Consumptions -->
-                <Button x:Name="btnConsumptions"
-                        Style="{StaticResource MenuCardButtonStyle}">
-                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <Image Source="/WaterManagementSystem.Wpf;component/Images/Consumption.png"
-                               Width="60"
-                               Height="60"
-                               Stretch="Uniform"
-                               Margin="0,12,0,14"/>
-                        <TextBlock Text="Registar&#x0a;Leitura"
-                                   TextAlignment="Center"
-                                   FontSize="15"
-                                   FontWeight="Bold"
-                                   Foreground="#173B63"
-                                   TextWrapping="Wrap"
-                                   Width="120"/>
-                    </StackPanel>
-                </Button>
-
-                <!-- Invoices -->
-                <Button x:Name="btnInvoices"
-                        Style="{StaticResource MenuCardButtonStyle}">
-                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <Image Source="/WaterManagementSystem.Wpf;component/Images/invoice.png"
-                               Width="60"
-                               Height="60"
-                               Stretch="Uniform"
-                               Margin="0,12,0,14"/>
-                        <TextBlock Text="Consultar Faturas"
-                                   TextAlignment="Center"
-                                   FontSize="15"
-                                   FontWeight="Bold"
-                                   Foreground="#173B63"
-                                   TextWrapping="Wrap"
-                                   Width="120"/>
-                    </StackPanel>
-                </Button>
-            </StackPanel>
+                    <Button x:Name="btnAbout"
+                        Grid.Column="1"
+                        Content="Sobre"
+                        Width="90"
+                        Height="36"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Background="White"
+                        Foreground="#173B63"
+                        BorderBrush="White"
+                        FontSize="14"
+                        FontWeight="SemiBold"
+                        Cursor="Hand"/>
                 </Grid>
-                <Border Grid.Row="3"
-                    Background="White"
-                    BorderBrush="#D9D9D9"
-                    BorderThickness="0,1,0,0">
+            </Border>
 
-            <TextBlock Text="© 2026 Aqualis. All rights reserved."
-                    Foreground="#173B63"
-                    FontSize="12"
+            <!-- LOGO CENTRAL -->
+            <StackPanel Grid.Row="1"
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Center"/>
-        </Border>
-    </Grid>
+                    VerticalAlignment="Center">
+
+                <Image Source="/WaterManagementSystem.Wpf;component/Images/logoAzul1.png"
+                   Width="145"
+                   Height="145"
+                   Stretch="Uniform"/>
+
+                <TextBlock Text="Conecta você ao que é essencial"
+                       Margin="0,8,0,0"
+                       FontSize="18"
+                       FontWeight="SemiBold"
+                       Foreground="#173B63"
+                       HorizontalAlignment="Center"/>
+
+                <TextBlock Text="Selecione uma área para começar"
+                       Margin="0,5,0,0"
+                       FontSize="13"
+                       Foreground="#677482"
+                       HorizontalAlignment="Center"/>
+            </StackPanel>
+
+            <!-- MENU -->
+            <Grid Grid.Row="2"
+              Margin="65,15,65,30">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="15"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0"
+                       Text="Menu principal"
+                       FontSize="21"
+                       FontWeight="SemiBold"
+                       Foreground="#173B63"/>
+
+                <Grid Grid.Row="2"
+                  VerticalAlignment="Top">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- CLIENTES -->
+                    <Button x:Name="btnCustomers"
+                        Grid.Column="0"
+                        Click="btnCustomers_Click"
+                        Width="190"
+                        Height="160"
+                        HorizontalAlignment="Center"
+                        Background="White"
+                        BorderBrush="#D8DEE5"
+                        BorderThickness="1"
+                        Cursor="Hand">
+
+                        <StackPanel HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+
+                            <Image Source="/WaterManagementSystem.Wpf;component/Images/Customer.png"
+                               Width="48"
+                               Height="48"
+                               Stretch="Uniform"/>
+
+                            <TextBlock Text="Clientes"
+                                   Margin="0,10,0,0"
+                                   FontSize="16"
+                                   FontWeight="SemiBold"
+                                   Foreground="#173B63"
+                                   HorizontalAlignment="Center"/>
+
+                            <TextBlock Text="Registar e gerir clientes"
+                                   Margin="0,6,0,0"
+                                   Width="145"
+                                   FontSize="12"
+                                   Foreground="#677482"
+                                   TextAlignment="Center"
+                                   TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Button>
+
+                    <!-- CONTADORES -->
+                    <Button x:Name="btnMeters"
+                        Click="btnMeters_Click"
+                        Grid.Column="2"
+                        Width="190"
+                        Height="160"
+                        HorizontalAlignment="Center"
+                        Background="White"
+                        BorderBrush="#D8DEE5"
+                        BorderThickness="1"
+                        Cursor="Hand">
+
+                        <StackPanel HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+
+                            <Image Source="/WaterManagementSystem.Wpf;component/Images/meter.png"
+                               Width="48"
+                               Height="48"
+                               Stretch="Uniform"/>
+
+                            <TextBlock Text="Contadores"
+                                   Margin="0,10,0,0"
+                                   FontSize="16"
+                                   FontWeight="SemiBold"
+                                   Foreground="#173B63"
+                                   HorizontalAlignment="Center"/>
+
+                            <TextBlock Text="Registar e gerir contadores"
+                                   Margin="0,6,0,0"
+                                   Width="145"
+                                   FontSize="12"
+                                   Foreground="#677482"
+                                   TextAlignment="Center"
+                                   TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Button>
+
+                    <!-- CONSUMOS -->
+                    <Button x:Name="btnConsumptions"
+                        Grid.Column="4"
+                        Width="190"
+                        Height="160"
+                        HorizontalAlignment="Center"
+                        Background="White"
+                        BorderBrush="#D8DEE5"
+                        BorderThickness="1"
+                        Cursor="Hand">
+
+                        <StackPanel HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+
+                            <Image Source="/WaterManagementSystem.Wpf;component/Images/Consumption.png"
+                               Width="48"
+                               Height="48"
+                               Stretch="Uniform"/>
+
+                            <TextBlock Text="Consumos"
+                                   Margin="0,10,0,0"
+                                   FontSize="16"
+                                   FontWeight="SemiBold"
+                                   Foreground="#173B63"
+                                   HorizontalAlignment="Center"/>
+
+                            <TextBlock Text="Registar leituras e consumos"
+                                   Margin="0,6,0,0"
+                                   Width="145"
+                                   FontSize="12"
+                                   Foreground="#677482"
+                                   TextAlignment="Center"
+                                   TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Button>
+
+                    <!-- FATURAS -->
+                    <Button x:Name="btnInvoices"
+                        Grid.Column="6"
+                        Width="190"
+                        Height="160"
+                        HorizontalAlignment="Center"
+                        Background="White"
+                        BorderBrush="#D8DEE5"
+                        BorderThickness="1"
+                        Cursor="Hand">
+
+                        <StackPanel HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+
+                            <Image Source="/WaterManagementSystem.Wpf;component/Images/invoice.png"
+                               Width="48"
+                               Height="48"
+                               Stretch="Uniform"/>
+
+                            <TextBlock Text="Faturas"
+                                   Margin="0,10,0,0"
+                                   FontSize="16"
+                                   FontWeight="SemiBold"
+                                   Foreground="#173B63"
+                                   HorizontalAlignment="Center"/>
+
+                            <TextBlock Text="Consultar e gerir faturas"
+                                   Margin="0,6,0,0"
+                                   Width="145"
+                                   FontSize="12"
+                                   Foreground="#677482"
+                                   TextAlignment="Center"
+                                   TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </Grid>
+
+            <!-- RODAPÉ -->
+            <Border Grid.Row="3"
+                Background="#173B63">
+
+                <TextBlock Text="© 2026 Aqualis. Todos os direitos reservados."
+                       Foreground="White"
+                       FontSize="12"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+            </Border>
+
+        </Grid>
 </Window>
