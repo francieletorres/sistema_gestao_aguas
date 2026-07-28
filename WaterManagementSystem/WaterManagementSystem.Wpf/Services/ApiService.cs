@@ -16,6 +16,7 @@ namespace WaterManagementSystem.Wpf.Services
         {
             _httpClient = new HttpClient();
             _httpClient.BaseAddress = new Uri("https://localhost:44312/api/");
+            //_httpClient.BaseAddress = new Uri("http://watermanagementtorres.somee.com/api/");
         }
         
         public async Task<Response> GetCustomers()

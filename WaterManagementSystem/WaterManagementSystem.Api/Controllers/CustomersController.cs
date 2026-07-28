@@ -4,12 +4,13 @@ using System.Web.Http;
 using System.Linq;
 using System.Net.Http;
 using System.Net;
+using System.Configuration;
 
 namespace WaterManagementSystem.Api.Controllers
 {
     public class CustomersController : ApiController
     {
-        WaterManagementDataContext dc = new WaterManagementDataContext(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=WaterManagementSystemDB;Integrated Security=True");
+        WaterManagementDataContext dc = new WaterManagementDataContext(ConfigurationManager.ConnectionStrings["WaterManagementSystemDBConnectionString"].ConnectionString);
 
         // GET: api/Customers
         public IHttpActionResult Get()
