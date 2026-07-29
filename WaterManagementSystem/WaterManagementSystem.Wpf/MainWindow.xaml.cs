@@ -33,5 +33,16 @@ namespace WaterManagementSystem.Wpf
             MeterWindow meterWindow = new MeterWindow();
             meterWindow.ShowDialog();
         }
+
+        private void btnConsumptions_Click(object sender, RoutedEventArgs e)
+        {
+            ConsumptionWindow consumptionWindow = new ConsumptionWindow();
+            consumptionWindow.ShowDialog();
+        }
+
+        private void btnInvoices_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

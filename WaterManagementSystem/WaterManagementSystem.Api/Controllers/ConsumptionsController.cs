@@ -24,7 +24,8 @@ namespace WaterManagementSystem.Api.Controllers
                            consumption.MeterReading,
                            consumption.ReadingDate,
                            consumption.ConsumedVolume,
-                           consumption.Notes
+                           consumption.Notes,
+                           HasInvoice = consumption.Invoices.Any(),
                        };
 
             return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, list.ToList()));
@@ -37,7 +38,6 @@ namespace WaterManagementSystem.Api.Controllers
 
             if (consumption != null)
             {
-
                 //cria um obj temporario
                 var consumptionData = new
                 {
@@ -56,6 +56,34 @@ namespace WaterManagementSystem.Api.Controllers
 
             return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Consumption not found."));
 
+        }
+
+        [HttpGet]
+        [Route("api/consumptions/meter/{meterId}")]
+        public IHttpActionResult GetConsumptionByMeter(int meterId)
+        {
+            var consumptions = dc.Consumptions.Where(c => c.MeterId == meterId)
+                .Select(c => new
+                {
+                    c.ConsumptionId,
+                    c.MeterId,
+                    CustomerName = c.Meter.Customer.Name,
+                    c.MeterReading,
+                    c.ReadingDate,
+                    c.ConsumedVolume,
+                    c.Notes,
+                    HasInvoice = c.Invoices.Any()
+                })
+            .ToList();
+
+            //if(consumptions.Count == 0)
+            //{
+            //    return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "No consumption has been registered for this meter yet"));
+
+            //}
+            //return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, consumptions.ToList()));
+
+            return Ok(consumptions);
         }
 
         // POST: api/Consumptions
@@ -170,7 +198,12 @@ namespace WaterManagementSystem.Api.Controllers
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Consumption not found."));
             }
 
-            Meter meter = dc.Meters.FirstOrDefault(m => m.MeterId == updateConsumption.MeterId);
+            if (consumption.Invoices.Any())
+            {
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "This consumption has already been invoiced and cannot be changed."));
+
+            }
+                Meter meter = dc.Meters.FirstOrDefault(m => m.MeterId == updateConsumption.MeterId);
 
             if (meter == null)
             {

@@ -14,8 +14,11 @@ namespace WaterManagementSystem.Wpf.Models
 
         public DateTime InstallationDate { get; set; }
 
-        public bool IsActive { get; set; }  
+        public bool IsActive { get; set; }
 
-
+        public override string ToString()
+        {
+            return $"Contador Número: {MeterId}";
+        }
     }
 }

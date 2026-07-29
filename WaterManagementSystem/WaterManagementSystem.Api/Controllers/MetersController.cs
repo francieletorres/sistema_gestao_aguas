@@ -67,12 +67,14 @@ namespace WaterManagementSystem.Api.Controllers
                 })
                 .ToList();
 
-            if (meters.Count == 0)
-            {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "No meter has been registered for this customer yet."));
-            }
+            //if (meters.Count == 0)
+            //{
+            //    return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "No meter has been registered for this customer yet."));
+            //}
 
-            return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK,meters));
+            //return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK,meters));
+
+            return Ok(meters);
         }
 
         // POST: api/Meters

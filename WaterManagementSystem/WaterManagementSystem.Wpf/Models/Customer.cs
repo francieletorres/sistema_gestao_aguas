@@ -14,6 +14,9 @@ namespace WaterManagementSystem.Wpf.Models
         public string Email { get; set; }
         public bool IsActive { get; set; }
 
-
+        public override string ToString()
+        {
+            return $"{CustomerId} - {Name} - NIF: {TaxNumber}";
+        }
     }
 }

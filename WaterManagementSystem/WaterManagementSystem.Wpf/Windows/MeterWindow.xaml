@@ -119,7 +119,6 @@
                         <ComboBox x:Name="cbCustomers"
                                   Height="38"
                                   FontSize="14"
-                                  DisplayMemberPath="Name"
                                   SelectionChanged="cbCustomers_SelectionChanged"/>
                     </StackPanel>
 
@@ -188,7 +187,7 @@
                       GridLinesVisibility="Horizontal"
                       Background="White"
                       BorderBrush="#D8DEE5"
-                      AlternatingRowBackground="#F6F8FA">
+                      AlternatingRowBackground="#F6F8FA" >
 
                 <DataGrid.Columns>
 

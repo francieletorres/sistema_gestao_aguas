@@ -191,6 +191,7 @@
 
                     <!-- CONSUMOS -->
                     <Button x:Name="btnConsumptions"
+                        Click="btnConsumptions_Click"
                         Grid.Column="4"
                         Width="190"
                         Height="160"
@@ -227,6 +228,7 @@
 
                     <!-- FATURAS -->
                     <Button x:Name="btnInvoices"
+                        Click="btnInvoices_Click"
                         Grid.Column="6"
                         Width="190"
                         Height="160"

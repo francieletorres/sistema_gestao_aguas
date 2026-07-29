@@ -78,7 +78,7 @@ namespace WaterManagementSystem.Wpf.Services
                 return new Response
                 {
                     IsSuccess = true,
-                    Result = result
+                    Message = result
                 };
             }
             catch (Exception ex)
@@ -114,7 +114,7 @@ namespace WaterManagementSystem.Wpf.Services
                 return new Response
                 {
                     IsSuccess = true,
-                    Result = result
+                    Message = result
                 };
 
             }
@@ -267,7 +267,7 @@ namespace WaterManagementSystem.Wpf.Services
                 return new Response
                 {
                     IsSuccess = true,
-                    Result = result
+                    Message = result
                 };
             }
             catch (Exception ex)
@@ -304,7 +304,7 @@ namespace WaterManagementSystem.Wpf.Services
                 return new Response
                 {
                     IsSuccess = true,
-                    Result = result
+                    Message = result
                 };
             }
             catch (Exception ex)
@@ -350,9 +350,182 @@ namespace WaterManagementSystem.Wpf.Services
             }
         }
 
+        public async Task<Response> GetConsumptions()
+        {
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync("consumptions/");
+
+                var result = await response.Content.ReadAsStringAsync();
+
+                if(!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = result
+                    };
+                }
+
+                var consumptions = JsonConvert.DeserializeObject<List<Consumption>>(result);
+
+                return new Response
+                {
+                    IsSuccess = true,
+                    Result = consumptions
+                };
+
+            }
+            catch(Exception ex)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
+        public async Task<Response> GetConsumptionsByMeter(int meterId)
+        {
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync("consumptions/meter/" + meterId);
+
+                var result = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = result
+                    };
+                }
+
+                var consumptions = JsonConvert.DeserializeObject<List<Consumption>>(result);
+
+                return new Response
+                {
+                    IsSuccess = true,
+                    Result = consumptions
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+
+            }
+        }
+
+
+        public async Task<Response> CreateConsumption(Consumption consumption)
+        {
+            try
+            {
+                var json = JsonConvert.SerializeObject(consumption);
+
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await _httpClient.PostAsync("consumptions", content);
+
+                var result = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = result
+                    };
+                }
+
+                return new Response
+                {
+                    IsSuccess = true,
+                    Message = result
+                };
+            }
+            catch(Exception ex)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            } 
+        }
+
+       public async Task<Response> UpdateConsumption(Consumption consumption)
+        {
+            try
+            {
+                var json = JsonConvert.SerializeObject(consumption);
+
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await _httpClient.PutAsync("consumptions/" + consumption.ConsumptionId, content);
+
+                var result = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = result
+                    };
+                }
+                return new Response
+                {
+                    IsSuccess = true,
+                    Message = result
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
+        public async Task<Response> DeleteConsumption(int consumptionId)
+        {
+            try
+            {
+                HttpResponseMessage response = await _httpClient.DeleteAsync("consumptions/" + consumptionId);
+
+                var result = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = result
+                    };
+                }
+                return new Response
+                {
+                    IsSuccess = true,
+                    Message = result
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
     }
 }
-
-
-
-
