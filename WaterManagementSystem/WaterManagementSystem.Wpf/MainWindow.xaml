@@ -47,6 +47,7 @@
                     </StackPanel>
 
                     <Button x:Name="btnAbout"
+                        Click="btnAbout_Click"
                         Grid.Column="1"
                         Content="Sobre"
                         Width="90"

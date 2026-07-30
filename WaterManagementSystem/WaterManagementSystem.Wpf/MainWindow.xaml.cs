@@ -42,7 +42,14 @@ namespace WaterManagementSystem.Wpf
 
         private void btnInvoices_Click(object sender, RoutedEventArgs e)
         {
+            InvoiceWindow invoiceWindow = new InvoiceWindow();
+            invoiceWindow.ShowDialog();
+        }
 
+        private void btnAbout_Click(object sender, RoutedEventArgs e)
+        {
+            AboutWindow aboutWindow = new AboutWindow();
+            aboutWindow.ShowDialog();
         }
     }
 }
