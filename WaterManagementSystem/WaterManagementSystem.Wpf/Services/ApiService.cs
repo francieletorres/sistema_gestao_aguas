@@ -527,5 +527,223 @@ namespace WaterManagementSystem.Wpf.Services
                 };
             }
         }
+
+        public async Task<Response> GetInvoices()
+        {
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync("invoices/");
+
+                var result = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = result
+                    };
+                }
+
+                var invoices = JsonConvert.DeserializeObject<List<Invoice>>(result);
+
+                return new Response
+                {
+                    IsSuccess = true,
+                    Result = invoices
+                };
+            }
+            catch(Exception ex)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
+        public async Task<Response> GetInvoiceById(int invoiceId)
+        {
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync("invoices/" + invoiceId);
+
+                var result = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = result
+                    };
+                }
+
+                var invoice = JsonConvert.DeserializeObject<Invoice>(result);
+
+                return new Response
+                {
+                    IsSuccess = true,
+                    Result = invoice
+                };
+            }
+
+            catch (Exception ex)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
+        public async Task<Response> SearchInvoices(
+            int? customerId,
+            DateTime? startDate,
+            DateTime? endDate,
+            bool? isPaid,
+            bool? isCancelled)
+        {
+            try
+            {
+                List<string> filters = new List<string>();
+
+                if (customerId.HasValue)
+                {
+                    filters.Add("customerId=" + customerId.Value);
+                }
+
+                if (startDate.HasValue)
+                {
+                    filters.Add("startDate=" + startDate.Value.ToString("yyyy-MM-dd"));
+                }
+
+                if (endDate.HasValue)
+                {
+                    filters.Add("endDate=" + endDate.Value.ToString("yyyy-MM-dd"));
+                }
+
+                if (isPaid.HasValue)
+                {
+                    filters.Add("isPaid=" + isPaid.Value.ToString().ToLower());
+                }
+
+                if (isCancelled.HasValue)
+                {
+                    filters.Add("isCancelled=" + isCancelled.Value.ToString().ToLower());
+                }
+
+                string url = "Invoices/Search";
+
+                if (filters.Count > 0)
+                {
+                    url += "?" + string.Join("&", filters);
+                }
+
+                HttpResponseMessage response = await _httpClient.GetAsync(url);
+
+                var result = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = result
+                    };
+                }
+
+                var invoices = JsonConvert.DeserializeObject<List<Invoice>>(result);
+
+                return new Response
+                {
+                    IsSuccess = true,
+                    Result = invoices
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+        public async Task<Response> CreateInvoice(Invoice invoice)
+        {
+            try
+            {
+                string json = JsonConvert.SerializeObject(invoice);
+
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await _httpClient.PostAsync("invoices", content);
+
+                string result = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = result
+                    };
+                }
+
+                return new Response
+                {
+                    IsSuccess = true,
+                    Message = result
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
+        public async Task<Response> UpdateInvoice(Invoice invoice)
+        {
+            try
+            {
+                string json = JsonConvert.SerializeObject(invoice);
+
+                StringContent content = new StringContent(json,Encoding.UTF8,"application/json");
+
+                HttpResponseMessage response = await _httpClient.PutAsync("invoices/" + invoice.InvoiceId, content);
+
+                var result = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = result
+                    };
+                }
+
+                return new Response
+                {
+                    IsSuccess = true,
+                    Message = result
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
     }
 }
