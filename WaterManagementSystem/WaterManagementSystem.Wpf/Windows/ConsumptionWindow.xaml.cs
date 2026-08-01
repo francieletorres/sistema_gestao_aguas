@@ -80,9 +80,9 @@ namespace WaterManagementSystem.Wpf.Windows
             {
                 cbMeters.ItemsSource = null;
 
-                MessageBox.Show(response.Message, "error",
+                MessageBox.Show(response.Message, "Aviso",
                     MessageBoxButton.OK, 
-                    MessageBoxImage.Error);
+                    MessageBoxImage.Information);
             }
         }
 
@@ -165,6 +165,8 @@ namespace WaterManagementSystem.Wpf.Windows
 
         private void ClearFields()
         {
+            cbCustomers.SelectedItem = null;
+            cbMeters.SelectedItem = null;
             txtMeterReading.Text = string.Empty;
             txtNotes.Text = string.Empty;
             dpReadingDate.SelectedDate = DateTime.Today;
