@@ -101,7 +101,6 @@ namespace WaterManagementSystem.Wpf.Windows
 
         private bool ValidateForm()
         {
-            bool output = true;
 
             if (string.IsNullOrWhiteSpace(txtName.Text) || !Regex.IsMatch(txtName.Text, @"^[A-Za-zÀ-ÿ ]+$"))
             {
@@ -110,7 +109,7 @@ namespace WaterManagementSystem.Wpf.Windows
                      MessageBoxButton.OK,
                      MessageBoxImage.Error);
 
-                output = false;
+                return false;
             }
 
             if (string.IsNullOrWhiteSpace(txtPhone.Text) || !Regex.IsMatch(txtPhone.Text, @"^[239]\d{8}$"))
@@ -120,7 +119,7 @@ namespace WaterManagementSystem.Wpf.Windows
                      MessageBoxButton.OK,
                      MessageBoxImage.Error);
 
-                output = false;
+                return false;
             }
 
             if (string.IsNullOrWhiteSpace(txtAddress.Text))
@@ -130,9 +129,8 @@ namespace WaterManagementSystem.Wpf.Windows
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
 
-                output |= false;
+                return false;
             }
-
 
             if (string.IsNullOrWhiteSpace(txtTaxNumber.Text) || !Regex.IsMatch(txtTaxNumber.Text, @"^\d{9}$"))
             {
@@ -141,7 +139,7 @@ namespace WaterManagementSystem.Wpf.Windows
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
 
-                output = false;
+                return false;
             }
 
             if (string.IsNullOrWhiteSpace(txtEmail.Text) || !Regex.IsMatch(txtEmail.Text, @"^[\w\.-]+@([\w-]+\.)+[\w-]{2,}$"))
@@ -151,10 +149,10 @@ namespace WaterManagementSystem.Wpf.Windows
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
 
-                output = false;
+                return false;
             }
 
-            return output;
+            return true;
         }
 
         private void btnClear_Click(object sender, RoutedEventArgs e)
