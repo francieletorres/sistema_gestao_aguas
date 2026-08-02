@@ -150,10 +150,10 @@ namespace WaterManagementSystem.Wpf.Windows
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);
 
-                await LoadConsumptions(selectedMeter.MeterId);
+                txtMeterReading.Text = string.Empty;
+                txtNotes.Text = string.Empty;
 
-                ClearFields();
- 
+                await LoadConsumptions(selectedMeter.MeterId);
             }
             else
             {
