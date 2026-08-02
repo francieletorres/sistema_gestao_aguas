@@ -11,12 +11,17 @@ namespace WaterManagementSystem.Api.Controllers
     public class ConsumptionsController : ApiController
     {
         WaterManagementDataContext dc = new WaterManagementDataContext(ConfigurationManager.ConnectionStrings["WaterManagementSystemDBConnectionString"].ConnectionString);
+
+        /// <summary>
+        /// Gets all consumptions registered in the system.
+        /// </summary>
+        /// <returns>The list of consumptions.</returns>
         // GET: api/Consumptions
         public IHttpActionResult Get()
         {
             var list = from consumption
                      in dc.Consumptions
-                       select new  //obj tem loop
+                       select new 
                        {
                            consumption.ConsumptionId,
                            consumption.MeterId,
@@ -25,20 +30,24 @@ namespace WaterManagementSystem.Api.Controllers
                            consumption.ReadingDate,
                            consumption.ConsumedVolume,
                            consumption.Notes,
-                           HasInvoice = consumption.Invoices.Any(),
+                           HasInvoice = consumption.Invoices.Any(i => i.IsCancelled == false),
                        };
-
+            
             return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, list.ToList()));
         }
 
         // GET: api/Consumptions/5
+        /// <summary>
+        /// Gets a consumption by identifier.
+        /// </summary>
+        /// <param name="id">The consumption identifier</param>
+        /// <returns>The consumption data or a not found response.</returns>
         public IHttpActionResult Get(int id)
         {
             var consumption = dc.Consumptions.SingleOrDefault(c => c.ConsumptionId == id);
 
             if (consumption != null)
             {
-                //cria um obj temporario
                 var consumptionData = new
                 {
                     consumption.ConsumptionId,
@@ -58,10 +67,18 @@ namespace WaterManagementSystem.Api.Controllers
 
         }
 
+
+        /// <summary>
+        /// Gets all consumptions associated with a specific meter.
+        /// </summary>
+        /// <param name="meterId">The meter identifier.</param>
+        /// <returns>The meter consumptions or a not found response.</returns>
         [HttpGet]
         [Route("api/consumptions/meter/{meterId}")]
         public IHttpActionResult GetConsumptionByMeter(int meterId)
         {
+            CheckEstimatedReading(meterId);
+
             var consumptions = dc.Consumptions.Where(c => c.MeterId == meterId)
                 .Select(c => new
                 {
@@ -72,21 +89,26 @@ namespace WaterManagementSystem.Api.Controllers
                     c.ReadingDate,
                     c.ConsumedVolume,
                     c.Notes,
-                    HasInvoice = c.Invoices.Any()
+                    HasInvoice = c.Invoices.Any(i => i.IsCancelled == false)
                 })
             .ToList();
 
-            //if(consumptions.Count == 0)
+            //if (consumptions.Count == 0)
             //{
             //    return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "No consumption has been registered for this meter yet"));
 
             //}
-            //return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, consumptions.ToList()));
+            return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, consumptions));
 
-            return Ok(consumptions);
+            //return Ok(consumptions);
         }
 
         // POST: api/Consumptions
+        /// <summary>
+        /// Creates a new consumption record for an active meter and customer.
+        /// </summary>
+        /// <param name="newConsumption">The consumption data to be created.</param>
+        /// <returns>The result of the consumption creation operation.</returns>
         public IHttpActionResult Post([FromBody] Consumption newConsumption)
         {
 
@@ -121,7 +143,7 @@ namespace WaterManagementSystem.Api.Controllers
             }
 
             //verifica se existe uma leitura para esse mesmo meterId na mesma data
-            bool readingAlreadyExists = dc.Consumptions.Any(c => c.MeterId == newConsumption.MeterId && c.ReadingDate == newConsumption.ReadingDate);
+            bool readingAlreadyExists = dc.Consumptions.Any(c => c.MeterId == newConsumption.MeterId && c.ReadingDate.Date == newConsumption.ReadingDate.Date);
 
             if (readingAlreadyExists)
             {
@@ -153,6 +175,11 @@ namespace WaterManagementSystem.Api.Controllers
             return ResponseMessage(Request.CreateResponse(HttpStatusCode.Created, "Consumption created successfully."));
         }
 
+        /// <summary>
+        /// Checks whether the meter and its customer are active.
+        /// </summary>
+        /// <param name="meter">The meter to be checked.</param>
+        /// <returns>Returns true when both the meter and customer are active; otherwise, false.</returns>
         private bool CanRegisterConsumption(Meter meter)
         {
             if (meter.IsActive == true && meter.Customer.IsActive == true)
@@ -163,6 +190,10 @@ namespace WaterManagementSystem.Api.Controllers
             return false;
         }
 
+        /// <summary>
+        /// Calculates the consumed volume based on the previous meter reading.
+        /// </summary>
+        /// <returns>Returns the calculated consumed volume.</returns>
         private decimal CalculateConsumedVolume(int meterId, int meterReading, DateTime readingDate)
         {
             Consumption lastConsumption = dc.Consumptions.Where(c => c.MeterId == meterId && c.ReadingDate < readingDate)
@@ -178,6 +209,11 @@ namespace WaterManagementSystem.Api.Controllers
 
 
         // PUT: api/Consumptions/5
+        /// <summary>
+        ///  Updates an existing consumption record when it has not been invoiced.
+        /// </summary>
+        /// <param name="id">The consumption identifier.</param>
+        /// <returns>The result of the consumption update operation.</returns>
         public IHttpActionResult Put(int id, [FromBody] Consumption updateConsumption)
         {
             if (updateConsumption == null)
@@ -198,7 +234,7 @@ namespace WaterManagementSystem.Api.Controllers
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Consumption not found."));
             }
 
-            if (consumption.Invoices.Any())
+            if (consumption.Invoices.Any(i => i.IsCancelled == false))
             {
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "This consumption has already been invoiced and cannot be changed."));
 
@@ -259,6 +295,11 @@ namespace WaterManagementSystem.Api.Controllers
         }
 
 
+        /// <summary>
+        /// Calculates the consumed volume during an update,
+        /// excluding the consumption being edited.
+        /// </summary>
+        /// <returns>Returns the calculated consumed volume.</returns>
         private decimal CalculateConsumedVolumeForEdit(int meterId, int meterReading, DateTime readingDate, int consumptionId)
         {
             Consumption lastConsumption = dc.Consumptions.Where(c => c.MeterId == meterId && c.ReadingDate < readingDate && c.ConsumptionId != consumptionId)
@@ -274,6 +315,11 @@ namespace WaterManagementSystem.Api.Controllers
 
 
         // DELETE: api/Consumptions/5
+        /// <summary>
+        /// Delete an existing consumption when no invoice is associated with it.
+        /// </summary>
+        /// <param name="id">The consumption identifier.</param>
+        /// <returns>The result of the consumption deletion operation.</returns>
         public IHttpActionResult Delete(int id)
         {
             Consumption consumption = dc.Consumptions.FirstOrDefault(c => c.ConsumptionId == id);
@@ -303,6 +349,92 @@ namespace WaterManagementSystem.Api.Controllers
             }
 
             return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, "Consumption deleted successfully."));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="meterId"></param>
+        private void CheckEstimatedReading(int meterId)
+        {
+            int limitDay = 25;
+
+            DateTime today = DateTime.Now;
+
+            // A leitura estimada só é criada a partir do dia 25.
+            if (today.Day < limitDay)
+            {
+                return;
+            }
+
+            Meter meter = dc.Meters
+                .SingleOrDefault(m => m.MeterId == meterId);
+
+            // Verifica se o contador existe e está ativo.
+            if (meter == null || meter.IsActive == false)
+            {
+                return;
+            }
+
+            // Verifica se o cliente do contador está ativo.
+            if (meter.Customer == null || meter.Customer.IsActive == false)
+            {
+                return;
+            }
+
+            DateTime firstDayOfMonth =
+                new DateTime(today.Year, today.Month, 1);
+
+            DateTime firstDayOfNextMonth =
+                firstDayOfMonth.AddMonths(1);
+
+            // Verifica se o contador já possui uma leitura neste mês.
+            bool alreadyHasReading = dc.Consumptions.Any(c =>
+                c.MeterId == meterId &&
+                c.ReadingDate >= firstDayOfMonth &&
+                c.ReadingDate < firstDayOfNextMonth);
+
+            if (alreadyHasReading)
+            {
+                return;
+            }
+
+            var previousConsumptions = dc.Consumptions
+                .Where(c => c.MeterId == meterId)
+                .OrderBy(c => c.ReadingDate)
+                .ToList();
+
+            decimal averageConsumption;
+            decimal lastReading;
+
+            if (previousConsumptions.Count > 0)
+            {
+                averageConsumption =
+                    previousConsumptions.Average(c => c.ConsumedVolume);
+
+                lastReading = previousConsumptions
+                    .OrderByDescending(c => c.ReadingDate)
+                    .First()
+                    .MeterReading;
+            }
+            else
+            {
+                // Valor utilizado quando o contador ainda não possui consumos.
+                averageConsumption = 5;
+                lastReading = 0;
+            }
+
+            Consumption estimatedConsumption = new Consumption
+            {
+                MeterId = meterId,
+                MeterReading = Convert.ToInt32(lastReading + averageConsumption),
+                ReadingDate = today,
+                ConsumedVolume = averageConsumption,
+                Notes = "Estimated reading",
+            };
+
+            dc.Consumptions.InsertOnSubmit(estimatedConsumption);
+            dc.SubmitChanges();
         }
     }
 }

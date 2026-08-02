@@ -14,6 +14,10 @@ namespace WaterManagementSystem.Api.Controllers
         WaterManagementDataContext dc = new WaterManagementDataContext(ConfigurationManager.ConnectionStrings["WaterManagementSystemDBConnectionString"].ConnectionString);
 
         // GET: api/Invoices
+        /// <summary>
+        /// Gets all invoices with customer and meter information.
+        /// </summary>
+        /// <returns>The list of invoices.</returns>
         public IHttpActionResult Get()
         {
             var list = from invoice
@@ -34,6 +38,11 @@ namespace WaterManagementSystem.Api.Controllers
         }
 
         // GET: api/Invoices/5
+        /// <summary>
+        /// Gets an invoice by identifier with customer, meter and consumption details.
+        /// </summary>
+        /// <param name="id">The invoice identifier.</param>
+        /// <returns>The invoice data or a not found response.</returns>
         public IHttpActionResult Get(int id)
         {
             var invoice = dc.Invoices.FirstOrDefault(i => i.InvoiceId == id);
@@ -67,6 +76,10 @@ namespace WaterManagementSystem.Api.Controllers
         }
 
 
+        /// <summary>
+        ///  Searches invoices using optional customer, date, payment and cancellation filters.
+        /// </summary>
+        /// <returns>Returns the invoices that match the selected filters or a not found response.</returns>
         [HttpGet]
         [Route("api/invoices/search")]
         public IHttpActionResult Search(int? customerId = null, DateTime? startDate = null, DateTime? endDate = null, bool? isPaid = null, bool? isCancelled = null) 
@@ -127,6 +140,11 @@ namespace WaterManagementSystem.Api.Controllers
 
 
         // POST: api/Invoices
+        /// <summary>
+        /// Creates a new invoice for an existing consumption.
+        /// </summary>
+        /// <param name="newInvoice">The invoice data to be created.</param>
+        /// <returns>The result of the invoice creation operation.</returns>
         public IHttpActionResult Post([FromBody] Invoice newInvoice)
         {
 
@@ -177,6 +195,12 @@ namespace WaterManagementSystem.Api.Controllers
 
         }
 
+
+        /// <summary>
+        /// Calculates the invoice amount according to the consumed volume
+        /// and the applicable tariff tiers.
+        /// </summary>
+        /// <returns>The calculated invoice amount.</returns>
         private decimal CalculateInvoiceAmount(decimal consumedVolume)
         {
             decimal invoiceAmount = 0;
@@ -232,7 +256,12 @@ namespace WaterManagementSystem.Api.Controllers
             return Math.Round(invoiceAmount, 2);
         }
 
+
         // PUT: api/Invoices/5
+        /// <summary>
+        ///  Updates the payment or cancellation status of an existing invoice.
+        /// </summary>
+        /// <returns>The result of the invoice update operation.</returns>
         public IHttpActionResult Put(int id, [FromBody] Invoice updateInvoice)
         {
             if (updateInvoice == null)

@@ -13,11 +13,15 @@ namespace WaterManagementSystem.Api.Controllers
         WaterManagementDataContext dc = new WaterManagementDataContext(ConfigurationManager.ConnectionStrings["WaterManagementSystemDBConnectionString"].ConnectionString);
 
         // GET: api/Meters
+        /// <summary>
+        /// Gets all meters registered in the system.
+        /// </summary>
+        /// <returns>The list of meters.</returns>
         public IHttpActionResult Get()
         {
             var list = from meter
                        in dc.Meters
-                       select new  //obj tem loop
+                       select new  
                        {
                            meter.MeterId,
                            meter.CustomerId,
@@ -30,6 +34,11 @@ namespace WaterManagementSystem.Api.Controllers
         }
 
         // GET: api/Meters/5
+        /// <summary>
+        /// Gets a meter by identifier
+        /// </summary>
+        /// <param name="id">The meter identifier.</param>
+        /// <returns>The meter data or a not found response.</returns>
         public IHttpActionResult Get(int id)
         {
             var meter = dc.Meters.SingleOrDefault(m => m.MeterId == id);
@@ -52,6 +61,12 @@ namespace WaterManagementSystem.Api.Controllers
             return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Not found"));
         }
 
+
+        /// <summary>
+        /// Gets all meters associated with a specific customer.
+        /// </summary>
+        /// <param name="customerId">The customer identifier.</param>
+        /// <returns>Returns the customer's meters or a not found response.</returns>
         [HttpGet]
         [Route("api/meters/customer/{customerId}")]
         public IHttpActionResult GetByCustomer(int customerId)
@@ -72,12 +87,18 @@ namespace WaterManagementSystem.Api.Controllers
             //    return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "No meter has been registered for this customer yet."));
             //}
 
-            //return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK,meters));
+            return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, meters));
 
-            return Ok(meters);
+            //return Ok(meters);
         }
 
+
         // POST: api/Meters
+        /// <summary>
+        /// Creates a new meter for an existing customer.
+        /// </summary>
+        /// <param name="newMeter">The meter data to be created.</param>
+        /// <returns>The result of the meter creation operation.</returns>
         public IHttpActionResult Post([FromBody] Meter newMeter)
         {
             if (newMeter == null)
@@ -85,14 +106,15 @@ namespace WaterManagementSystem.Api.Controllers
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid meter data"));
             }
 
-            //procuso um customerid que seja igual ao customerId que veio do meter
+            // Finds the customer associated with the provided CustomerId.
             Customer customer = dc.Customers.SingleOrDefault(c => c.CustomerId == newMeter.CustomerId);       
             
-            //verifica se o cliente existe
             if(customer == null)
             {
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Customer not found"));
             }
+
+            //newMeter.InstallationDate = DateTime.SpecifyKind(newMeter.InstallationDate.Date, DateTimeKind.Unspecified);
 
             newMeter.IsActive = true;
 
@@ -111,6 +133,12 @@ namespace WaterManagementSystem.Api.Controllers
         }
 
         // PUT: api/Meters/5
+        /// <summary>
+        /// Updates the status of an existing meter.
+        /// </summary>
+        /// <param name="id">The meter identifier.</param>
+        /// <param name="updateMeter">The new meter status.</param>
+        /// <returns>The result of the meter update operation.</returns>
         public IHttpActionResult Put(int id, [FromBody]Meter updateMeter)
         {
             
@@ -141,6 +169,11 @@ namespace WaterManagementSystem.Api.Controllers
         }
 
         // DELETE: api/Meters/5
+        /// <summary>
+        /// Deletes an existing meter when no consumptions are associated with it.
+        /// </summary>
+        /// <param name="id">The meter identifier.</param>
+        /// <returns>The result of the meter deletion operation.</returns>
         public IHttpActionResult Delete(int id)
         {
 

@@ -12,12 +12,16 @@ namespace WaterManagementSystem.Api.Controllers
     {
         WaterManagementDataContext dc = new WaterManagementDataContext(ConfigurationManager.ConnectionStrings["WaterManagementSystemDBConnectionString"].ConnectionString);
 
+        /// <summary>
+        /// Gets all customers registered in the system.
+        /// </summary>
+        /// <returns>The list of customers.</returns>
         // GET: api/Customers
         public IHttpActionResult Get()
         {
             var list = from customer
                         in dc.Customers
-                       select new  //obj temp loop
+                       select new 
                        {
                            customer.CustomerId,
                            customer.Name,
@@ -32,6 +36,11 @@ namespace WaterManagementSystem.Api.Controllers
         }
 
         // GET: api/Customers/5
+        /// <summary>
+        /// Gets a customer by identifier.
+        /// </summary>
+        /// <param name="id">The customer identifier.</param>
+        /// <returns>The customer data or a not found response.</returns>
         public IHttpActionResult Get(int id)
         {
             var customer = dc.Customers.SingleOrDefault(c => c.CustomerId == id);
@@ -56,6 +65,11 @@ namespace WaterManagementSystem.Api.Controllers
         }
 
         // POST: api/Customers
+        /// <summary>
+        ///  Creates a new customer.
+        /// </summary>
+        /// <param name="newCustomer">The customer data to be created.</param>
+        /// <returns>The result of the customer creation operation.</returns>
         public IHttpActionResult Post([FromBody] Customer newCustomer)
         {
             if (newCustomer == null)
@@ -88,6 +102,12 @@ namespace WaterManagementSystem.Api.Controllers
         }
 
         // PUT: api/Customers/5
+        /// <summary>
+        /// Updates an existing customer.
+        /// </summary>
+        /// <param name="id">The customer identifier.</param>
+        /// <param name="updateCustomer"></param>
+        /// <returns>The result of the customer update operation.</returns>
         public IHttpActionResult Put(int id, [FromBody] Customer updateCustomer)
         {
             if (updateCustomer == null)
@@ -129,6 +149,11 @@ namespace WaterManagementSystem.Api.Controllers
         }
 
         // DELETE: api/Customers/5
+        /// <summary>
+        /// Delete an existing customer.
+        /// </summary>
+        /// <param name="id">The customer identifier.</param>
+        /// <returns>The result of the customer deletion operation.</returns>
         public IHttpActionResult Delete(int id)
         {
             Customer customer = dc.Customers.SingleOrDefault(c => c.CustomerId == id);
