@@ -182,14 +182,14 @@ namespace WaterManagementSystem.Wpf.Windows
 
             if (response.IsSuccess)
             {
+                ClearFields();
+
+                await SearchInvoicesAsync();
+
                 MessageBox.Show(response.Message,
                     "Sucesso",
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);
-
-                await LoadInvoices();
-
-                ClearFields();
             }
             else
             {
@@ -215,6 +215,11 @@ namespace WaterManagementSystem.Wpf.Windows
         }
 
         private async void btnSearch_Click(object sender, RoutedEventArgs e)
+        {
+            await SearchInvoicesAsync();
+        }
+
+        private async Task SearchInvoicesAsync()
         {
             int? customerId = null;
             DateTime? startDate = dpStartDate.SelectedDate;
@@ -331,12 +336,12 @@ namespace WaterManagementSystem.Wpf.Windows
 
             if (response.IsSuccess)
             {
+                await SearchInvoicesAsync();
+
                 MessageBox.Show("Fatura marcada como paga.",
                     "Sucesso",
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);
-
-                await LoadInvoices();
             }
             else
             {
@@ -398,12 +403,12 @@ namespace WaterManagementSystem.Wpf.Windows
 
             if (response.IsSuccess)
             {
+                await SearchInvoicesAsync();
+
                 MessageBox.Show("Fatura cancelada com sucesso.",
                     "Sucesso",
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);
-
-                await LoadInvoices();
             }
             else
             {

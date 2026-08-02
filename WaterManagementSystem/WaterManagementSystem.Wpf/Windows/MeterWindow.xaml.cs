@@ -104,7 +104,7 @@ namespace WaterManagementSystem.Wpf.Windows
             newMeter = new Meter
             {
                 CustomerId = selectedCustomer.CustomerId,
-                InstallationDate = DateTime.Today,
+                InstallationDate = DateTime.Now,
                 IsActive = true
             };
 

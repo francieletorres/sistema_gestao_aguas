@@ -22,5 +22,13 @@ namespace WaterManagementSystem.Wpf.Models
 
         public bool HasInvoice { get; set; }
 
+        public override string ToString()
+        {
+            return ReadingDate.ToString("dd/MM/yyyy")
+                + " - "
+                + ConsumedVolume.ToString("F2")
+                + " m³";
+        }
+
     }
 }
