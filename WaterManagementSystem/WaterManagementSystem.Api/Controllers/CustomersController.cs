@@ -61,7 +61,7 @@ namespace WaterManagementSystem.Api.Controllers
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, customerData));
             }
 
-            return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Customer not found"));
+            return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Cliente não encontrado."));
         }
 
         // POST: api/Customers
@@ -74,7 +74,7 @@ namespace WaterManagementSystem.Api.Controllers
         {
             if (newCustomer == null)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid customer data."));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "Dados do cliente inválidos."));
             }
 
             //o any pergunta se existe alguém com esse nif. E responde true para existe e false nao existe
@@ -82,7 +82,7 @@ namespace WaterManagementSystem.Api.Controllers
 
             if (customerExists)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "A customer with this tax number already exists."));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "Já existe um cliente com este número de contribuinte."));
             }
 
             newCustomer.IsActive = true;
@@ -112,21 +112,21 @@ namespace WaterManagementSystem.Api.Controllers
         {
             if (updateCustomer == null)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid customer data."));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "Dados do cliente inválidos."));
             }
 
             Customer customer = dc.Customers.SingleOrDefault(c => c.CustomerId == id);
 
             if (customer == null)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Customer not found"));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Cliente não encontrado."));
             }
 
             bool anotherCustomerHasSameTaxNumber = dc.Customers.Any(c => (c.CustomerId != id && c.TaxNumber == updateCustomer.TaxNumber));
 
             if (anotherCustomerHasSameTaxNumber)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "A customer with this tax number already exists."));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "Já existe um cliente com este número de contribuinte."));
             }
 
             customer.Name = updateCustomer.Name;
@@ -160,7 +160,7 @@ namespace WaterManagementSystem.Api.Controllers
 
             if (customer == null)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Customer not found"));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Cliente não encontrado."));
             }
 
             bool customerHasConsumptions = dc.Consumptions.Any
@@ -168,7 +168,7 @@ namespace WaterManagementSystem.Api.Controllers
 
             if (customerHasConsumptions)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "Customer cannot be deleted because there are consumptions associated."));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "O cliente não pode ser eliminado porque existem consumos associados."));
             }
 
             //procura os contadores que pertecem ao cliente 
@@ -187,7 +187,7 @@ namespace WaterManagementSystem.Api.Controllers
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.ServiceUnavailable, e));
             }
 
-            return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, "Customer deleted successfully."));
+            return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, "Cliente eliminado com sucesso."));
 
         }
     }

@@ -16,9 +16,7 @@ using WaterManagementSystem.Wpf.Windows;
 
 namespace WaterManagementSystem.Wpf.Windows
 {
-    /// <summary>
-    /// Interaction logic for MeterWindow.xaml
-    /// </summary>
+    
     public partial class MeterWindow : Window
     {
         private readonly ApiService _apiService;
@@ -30,6 +28,9 @@ namespace WaterManagementSystem.Wpf.Windows
             dpInstallationDate.SelectedDate = DateTime.Today;
         }
 
+        /// <summary>
+        ///  Loads and displays the meters associated with the specified customer.
+        /// </summary>
         private async Task LoadMeters(int customerId) 
         {
             Response response = await _apiService.GetMetersByCustomer(customerId);
@@ -44,12 +45,16 @@ namespace WaterManagementSystem.Wpf.Windows
             {
                 dgMeters.ItemsSource = null;
 
-                MessageBox.Show(response.Message, "Error",
+                MessageBox.Show(response.Message, "Aviso",
                        MessageBoxButton.OK,
-                       MessageBoxImage.Error);
+                       MessageBoxImage.Information);
             }
         }
 
+        /// <summary>
+        ///  Loads and displays all customers.
+        /// </summary>
+        /// <returns></returns>
         private async Task LoadCustomers()
         {
             Response response = await _apiService.GetCustomers();
@@ -66,8 +71,9 @@ namespace WaterManagementSystem.Wpf.Windows
                        MessageBoxButton.OK,
                        MessageBoxImage.Error);
             }
-
         }
+
+
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
            await LoadCustomers();
@@ -90,7 +96,7 @@ namespace WaterManagementSystem.Wpf.Windows
 
             if (cbCustomers.SelectedItem == null)
             {
-                MessageBox.Show("Please select a customer.",
+                MessageBox.Show("Por favor, selecione um cliente.",
                    "Warning",
                    MessageBoxButton.OK,
                    MessageBoxImage.Warning);
@@ -112,7 +118,7 @@ namespace WaterManagementSystem.Wpf.Windows
 
             if (response.IsSuccess)
             {
-                MessageBox.Show("Meter registered successfully!",
+                MessageBox.Show("Contador registado com sucesso.",
                     "Success",
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);
@@ -132,7 +138,7 @@ namespace WaterManagementSystem.Wpf.Windows
         {
             if(dgMeters.SelectedItem == null)
             {
-                MessageBox.Show("Please select a meter.",
+                MessageBox.Show("Por favor, selecione um contador.",
                    "Warning",
                    MessageBoxButton.OK,
                    MessageBoxImage.Warning);
@@ -157,7 +163,7 @@ namespace WaterManagementSystem.Wpf.Windows
         {
             if(dgMeters.SelectedItem == null)
             {
-                MessageBox.Show("Please select a meter.",
+                MessageBox.Show("Por favor, selecione um contador.",
                     "Warning",
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
@@ -166,7 +172,7 @@ namespace WaterManagementSystem.Wpf.Windows
 
             Meter meterToDelete = (Meter)dgMeters.SelectedItem;
 
-            MessageBoxResult confirmation = MessageBox.Show("Are you sure you want to delete this meter?",
+            MessageBoxResult confirmation = MessageBox.Show("Tem a certeza de que pretende eliminar este contador?",
                 "Confirmation",
                 MessageBoxButton.OKCancel,
                 MessageBoxImage.Question);
@@ -178,7 +184,7 @@ namespace WaterManagementSystem.Wpf.Windows
 
                 if (deleteResponse.IsSuccess)
                 {
-                    MessageBox.Show("Meter deleted successfully!",
+                    MessageBox.Show("Contador eliminado com sucesso.",
                         "Success",
                         MessageBoxButton.OK,
                         MessageBoxImage.Information);

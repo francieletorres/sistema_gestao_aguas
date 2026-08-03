@@ -14,10 +14,6 @@ using WaterManagementSystem.Wpf.Services;
 
 namespace WaterManagementSystem.Wpf.Windows
 {
-    /// <summary>
-    /// Interaction logic for EditConsumptionWindow.xaml
-    /// </summary>
-    /// 
     public partial class EditConsumptionWindow : Window
     {
         private Consumption _consumptionToEdit;
@@ -46,7 +42,7 @@ namespace WaterManagementSystem.Wpf.Windows
             if(!int.TryParse(txtMeterReading.Text, out int meterReading))
             {
                 MessageBox.Show(
-                    "Please enter a valid meter reading.",
+                    "Por favor, introduza uma leitura válida no contador.",
                     "Warning",
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
@@ -62,7 +58,7 @@ namespace WaterManagementSystem.Wpf.Windows
             if (response.IsSuccess)
             {
                 MessageBox.Show(
-                    "Consumption updated successfully!",
+                    "Consumo atualizado com sucesso.",
                     "Success",
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);

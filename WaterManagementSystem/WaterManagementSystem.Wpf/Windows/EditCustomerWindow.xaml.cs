@@ -15,9 +15,7 @@ using WaterManagementSystem.Wpf.Services;
 
 namespace WaterManagementSystem.Wpf.Windows
 {
-    /// <summary>
-    /// Interaction logic for EditCustomerWindow.xaml
-    /// </summary>
+    
     public partial class EditCustomerWindow : Window
     {
         private Customer _customerToEdit;
@@ -38,13 +36,16 @@ namespace WaterManagementSystem.Wpf.Windows
             chkIsActive.IsChecked = customerToEdit.IsActive;
         }
 
+        /// <summary>
+        /// Validates the customer form fields.
+        /// </summary>
         private bool ValidateForm()
         {
             bool output = true;
 
             if (string.IsNullOrWhiteSpace(txtName.Text) || !Regex.IsMatch(txtName.Text, @"^[A-Za-zÀ-ÿ ]+$"))
             {
-                MessageBox.Show("Please enter a valid customer name.",
+                MessageBox.Show("Por favor, introduza um nome de cliente válido.",
                      "Validation error",
                      MessageBoxButton.OK,
                      MessageBoxImage.Error);
@@ -54,7 +55,7 @@ namespace WaterManagementSystem.Wpf.Windows
 
             if (string.IsNullOrWhiteSpace(txtPhone.Text) || !Regex.IsMatch(txtPhone.Text, @"^[239]\d{8}$"))
             {
-                MessageBox.Show("Please enter a valid phone number.",
+                MessageBox.Show("Por favor, introduza um contacto válido.",
                      "Validation error",
                      MessageBoxButton.OK,
                      MessageBoxImage.Error);
@@ -62,20 +63,9 @@ namespace WaterManagementSystem.Wpf.Windows
                 output = false;
             }
 
-            if (string.IsNullOrWhiteSpace(txtAddress.Text))
-            {
-                MessageBox.Show("Please enter the address.",
-                    "Validation error",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
-
-                output |= false;
-            }
-
-
             if (string.IsNullOrWhiteSpace(txtTaxNumber.Text) || !Regex.IsMatch(txtTaxNumber.Text, @"^\d{9}$"))
             {
-                MessageBox.Show("Please enter a valid tax number.",
+                MessageBox.Show("Por favor, introduza um NIF válido.",
                     "Validation error",
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
@@ -83,9 +73,19 @@ namespace WaterManagementSystem.Wpf.Windows
                 output = false;
             }
 
+            if (string.IsNullOrWhiteSpace(txtAddress.Text))
+            {
+                MessageBox.Show("Por favor, introduza a morada.",
+                    "Validation error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+
+                output |= false;
+            }
+
             if (string.IsNullOrWhiteSpace(txtEmail.Text) || !Regex.IsMatch(txtEmail.Text, @"^[\w\.-]+@([\w-]+\.)+[\w-]{2,}$"))
             {
-                MessageBox.Show("Please enter a valid email address.",
+                MessageBox.Show("Por favor, introduza um endereço de e-mail válido.",
                     "Validation error",
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
@@ -110,7 +110,7 @@ namespace WaterManagementSystem.Wpf.Windows
 
                 if (response.IsSuccess)
                 {
-                    MessageBox.Show("Customer updated successfully!",
+                    MessageBox.Show("Cliente atualizado com sucesso.",
                         "Sucess",
                         MessageBoxButton.OK,
                         MessageBoxImage.Information);

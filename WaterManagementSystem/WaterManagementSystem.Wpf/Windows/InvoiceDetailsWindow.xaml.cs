@@ -13,9 +13,7 @@ using WaterManagementSystem.Wpf.Models;
 
 namespace WaterManagementSystem.Wpf.Windows
 {
-    /// <summary>
-    /// Interaction logic for InvoiceDetailsWindow.xaml
-    /// </summary>
+    
     public partial class InvoiceDetailsWindow : Window
     {
         private Invoice _invoice;
@@ -29,6 +27,9 @@ namespace WaterManagementSystem.Wpf.Windows
             
         }
 
+        /// <summary>
+        /// Displays the selected invoice details in the form fields.
+        /// </summary>
         private void LoadInvoiceDetails()
         {
             txtCustomerName.Text = _invoice.CustomerName;

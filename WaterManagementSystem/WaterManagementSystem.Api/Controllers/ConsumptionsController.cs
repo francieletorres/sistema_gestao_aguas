@@ -63,7 +63,7 @@ namespace WaterManagementSystem.Api.Controllers
 
             }
 
-            return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Consumption not found."));
+            return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Consumo não encontrado."));
 
         }
 
@@ -93,11 +93,11 @@ namespace WaterManagementSystem.Api.Controllers
                 })
             .ToList();
 
-            //if (consumptions.Count == 0)
-            //{
-            //    return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "No consumption has been registered for this meter yet"));
+            if (consumptions.Count == 0)
+            {
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Este contador ainda não possui consumos registados."));
 
-            //}
+            }
             return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, consumptions));
 
             //return Ok(consumptions);
@@ -114,13 +114,13 @@ namespace WaterManagementSystem.Api.Controllers
 
             if (newConsumption == null)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid consumption data."));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "Dados do consumo inválidos."));
             }
 
             // nao pode inserir leitura para o futuro
             if (newConsumption.ReadingDate.Date > DateTime.Now.Date)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "Reading date cannot be in the future."));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "A data da leitura não pode ser futura."));
             }
 
             Meter meter = dc.Meters.FirstOrDefault(m => m.MeterId == newConsumption.MeterId);
@@ -128,18 +128,18 @@ namespace WaterManagementSystem.Api.Controllers
             //para nao criar um consumo com contador vazio
             if (meter == null)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Meter not found."));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Contador não encontrado."));
             }
 
             if (!CanRegisterConsumption(meter))
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "Inactive meters or customers cannot register new consumptions."));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "Não é possível registar novos consumos para clientes ou contadores inativos."));
             }
 
             //leitura nao pode ser negativa
             if (newConsumption.MeterReading < 0)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "Meter reading cannot be negative."));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "A leitura não pode ser negativa."));
             }
 
             //verifica se existe uma leitura para esse mesmo meterId na mesma data
@@ -147,7 +147,7 @@ namespace WaterManagementSystem.Api.Controllers
 
             if (readingAlreadyExists)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "A reading already exists for this meter on this date."));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "Já existe uma leitura para este contador nesta data."));
             }
 
             // Busca a leitura anterior do contador e calcula o volume consumido
@@ -157,7 +157,7 @@ namespace WaterManagementSystem.Api.Controllers
             //volume consumido nao pode ser negativo
             if (newConsumption.ConsumedVolume < 0)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "Consumption cannot be negative."));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "O consumo não pode ser negativo."));
 
             }
 
@@ -172,7 +172,7 @@ namespace WaterManagementSystem.Api.Controllers
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.ServiceUnavailable, e));
             }
 
-            return ResponseMessage(Request.CreateResponse(HttpStatusCode.Created, "Consumption created successfully."));
+            return ResponseMessage(Request.CreateResponse(HttpStatusCode.Created, "Consumo criado com sucesso."));
         }
 
         /// <summary>
@@ -218,12 +218,12 @@ namespace WaterManagementSystem.Api.Controllers
         {
             if (updateConsumption == null)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid consumption data."));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "Dados de consumo inválidos."));
             }
 
             if (updateConsumption.ReadingDate.Date > DateTime.Now.Date)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "Reading date cannot be in the future."));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "A data da leitura não pode ser futura."));
             }
 
             //buscar o id da requisição
@@ -231,30 +231,30 @@ namespace WaterManagementSystem.Api.Controllers
 
             if (consumption == null)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Consumption not found."));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Consumo não encontrado."));
             }
 
             if (consumption.Invoices.Any(i => i.IsCancelled == false))
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "This consumption has already been invoiced and cannot be changed."));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "Consumo faturado não pode ser alterado."));
 
             }
                 Meter meter = dc.Meters.FirstOrDefault(m => m.MeterId == updateConsumption.MeterId);
 
             if (meter == null)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Meter not found."));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Contador não encontrado."));
             }
 
             if (!CanRegisterConsumption(meter))
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "Inactive meters or customers cannot register new consumptions."));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "Não é possível registar novos consumos para clientes ou contadores inativos."));
             }
 
             //leitura nao pode ser negativa
             if (updateConsumption.MeterReading < 0)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "Meter reading cannot be negative."));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "A leitura não pode ser negativa."));
             }
 
             //verifica se existe outra leitura para esse mesmo meterId na mesma data
@@ -263,7 +263,7 @@ namespace WaterManagementSystem.Api.Controllers
 
             if (readingAlreadyExists)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "A reading already exists for this meter on this date."));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "Já existe uma leitura para este contador nesta data."));
             }
 
             // Busca a leitura anterior, ignora o próprio consumo editado e calcula o volume consumido
@@ -272,7 +272,7 @@ namespace WaterManagementSystem.Api.Controllers
             //volume consumido nao pode ser negativo
             if (updateConsumption.ConsumedVolume < 0)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "Consumption cannot be negative."));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "O consumo não pode ser negativo."));
 
             }
 
@@ -291,7 +291,7 @@ namespace WaterManagementSystem.Api.Controllers
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.ServiceUnavailable, e));
             }
 
-            return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, "Consumption updated successfully."));
+            return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, "Consumo atualizado com sucesso."));
         }
 
 
@@ -327,14 +327,14 @@ namespace WaterManagementSystem.Api.Controllers
 
             if (consumption == null)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Consumption not found"));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Consumo não encontrado."));
             }
 
             bool consumptionHasInvoice = dc.Invoices.Any(i => i.ConsumptionId == id);
 
             if (consumptionHasInvoice)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "Consumption cannot be deleted because there is an invoice associated."));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "Não é possível apagar o consumo porque existe uma fatura associada."));
             }
 
             dc.Consumptions.DeleteOnSubmit(consumption);
@@ -348,7 +348,7 @@ namespace WaterManagementSystem.Api.Controllers
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.ServiceUnavailable, e));
             }
 
-            return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, "Consumption deleted successfully."));
+            return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, "Consumo apagado com sucesso."));
         }
 
         /// <summary>
@@ -430,7 +430,7 @@ namespace WaterManagementSystem.Api.Controllers
                 MeterReading = Convert.ToInt32(lastReading + averageConsumption),
                 ReadingDate = today,
                 ConsumedVolume = averageConsumption,
-                Notes = "Estimated reading",
+                Notes = "Leitura estimada",
             };
 
             dc.Consumptions.InsertOnSubmit(estimatedConsumption);

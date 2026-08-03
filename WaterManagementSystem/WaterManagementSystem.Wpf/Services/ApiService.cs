@@ -15,10 +15,14 @@ namespace WaterManagementSystem.Wpf.Services
         public ApiService()
         {
             _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri("https://localhost:44312/api/");
-            //_httpClient.BaseAddress = new Uri("http://watermanagementtorres.somee.com/api/");
+            //_httpClient.BaseAddress = new Uri("https://localhost:44312/api/");
+            _httpClient.BaseAddress = new Uri("http://watermanagementtorres.somee.com/api/");
         }
-        
+
+        /// <summary>
+        ///  Gets all customers from the API.
+        /// </summary>
+        /// <returns>A response containing the customer list or an error message.</returns>
         public async Task<Response> GetCustomers()
         {
             try
@@ -44,16 +48,21 @@ namespace WaterManagementSystem.Wpf.Services
                     Result = customers
                 };
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = ex.Message
+                    Message = "Não foi possível comunicar com o servidor. Verifique a ligação à internet ou tente novamente."
                 };
             }
         }
 
+        /// <summary>
+        ///  Sends a new customer to the API for registration.
+        /// </summary>
+        /// <param name="customer"></param>
+        /// <returns>A response with the result of the customer creation.</returns>
         public async Task<Response> CreateCustomer(Customer customer)
         {
             try
@@ -81,16 +90,22 @@ namespace WaterManagementSystem.Wpf.Services
                     Message = result
                 };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = ex.Message
+                    Message = "Não foi possível comunicar com o servidor. Verifique a ligação à internet ou tente novamente."
                 };
             }
         }
 
+
+        /// <summary>
+        /// Sends updated customer data to the API.
+        /// </summary>
+        /// <param name="customer"></param>
+        /// <returns>A response with the result of the customer updated.</returns>
         public async Task<Response> UpdateCustomer(Customer customer)
         {
             try
@@ -118,16 +133,21 @@ namespace WaterManagementSystem.Wpf.Services
                 };
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = ex.Message
+                    Message = "Não foi possível comunicar com o servidor. Verifique a ligação à internet ou tente novamente."
                 };
             }
         }
 
+        /// <summary>
+        /// Requests the deletion of the customer from the API.
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <returns>A response with the result of the customer deleted.</returns>
         public async Task<Response> DeleteCustomer(int customerId)
         {
             try
@@ -151,16 +171,20 @@ namespace WaterManagementSystem.Wpf.Services
                     Message = result
                 };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = ex.Message
+                    Message = "Não foi possível comunicar com o servidor. Verifique a ligação à internet ou tente novamente."
                 };
             }
         }
 
+        /// <summary>
+        /// Gets all meters from the API.
+        /// </summary>
+        /// <returns>A response containing the meter list or an error message.</returns>
         public async Task<Response> GetMeters()
         {
             try
@@ -190,18 +214,23 @@ namespace WaterManagementSystem.Wpf.Services
                     Result = meters
                 };
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 // Trata erros de ligação ou outros problemas.
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = ex.Message
+                    Message = "Não foi possível comunicar com o servidor. Verifique a ligação à internet ou tente novamente."
                 };
 
             }
         }
 
+        /// <summary>
+        /// Gets the meters associated with the specified customer.
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <returns>A response containing the customer's meters or an error message.</returns>
         public async Task<Response> GetMetersByCustomer(int customerId)
         {
             try
@@ -231,18 +260,23 @@ namespace WaterManagementSystem.Wpf.Services
                     Result = meters
                 };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Trata erros de ligação ou outros problemas.
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = ex.Message
+                    Message = "Não foi possível comunicar com o servidor. Verifique a ligação à internet ou tente novamente."
                 };
 
             }
         }
 
+        /// <summary>
+        /// Sends a new meter to the API for registration.
+        /// </summary>
+        /// <param name="meter"></param>
+        /// <returns>A response with the result of the meter creation.</returns>
         public async Task<Response> CreateMeter(Meter meter)
         {
             try
@@ -270,16 +304,21 @@ namespace WaterManagementSystem.Wpf.Services
                     Message = result
                 };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = ex.Message
+                    Message = "Não foi possível comunicar com o servidor. Verifique a ligação à internet ou tente novamente."
                 };
             }
         }
 
+        /// <summary>
+        /// Sends updated meter data to the API.
+        /// </summary>
+        /// <param name="meter"></param>
+        /// <returns>A response with the result of the meter updated.</returns>
         public async Task<Response> UpdateMeter(Meter meter)
         {  
             try
@@ -307,16 +346,21 @@ namespace WaterManagementSystem.Wpf.Services
                     Message = result
                 };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = ex.Message
+                    Message = "Não foi possível comunicar com o servidor. Verifique a ligação à internet ou tente novamente."
                 };
             }
         }
 
+        /// <summary>
+        /// Requests the deletion of the meter from the API.
+        /// </summary>
+        /// <param name="meterId"></param>
+        /// <returns>A response with the result of the meter deleted.</returns>
         public async Task<Response> DeleteMeter(int meterId)
         {
             try
@@ -340,16 +384,20 @@ namespace WaterManagementSystem.Wpf.Services
                     Message = result
                 };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = ex.Message
+                    Message = "Não foi possível comunicar com o servidor. Verifique a ligação à internet ou tente novamente."
                 };
             }
         }
 
+        /// <summary>
+        /// Gets all consumptions from the API.
+        /// </summary>
+        /// <returns>A response containing the consumption list or an error message.</returns>
         public async Task<Response> GetConsumptions()
         {
             try
@@ -376,16 +424,21 @@ namespace WaterManagementSystem.Wpf.Services
                 };
 
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = ex.Message
+                    Message = "Não foi possível comunicar com o servidor. Verifique a ligação à internet ou tente novamente."
                 };
             }
         }
 
+        /// <summary>
+        ///  Gets the consumptions associated with the specified meter.
+        /// </summary>
+        /// <param name="meterId"></param>
+        /// <returns>A response containing the meter's consumptions or an error message.</returns>
         public async Task<Response> GetConsumptionsByMeter(int meterId)
         {
             try
@@ -411,18 +464,23 @@ namespace WaterManagementSystem.Wpf.Services
                     Result = consumptions
                 };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = ex.Message
+                    Message = "Não foi possível comunicar com o servidor. Verifique a ligação à internet ou tente novamente."
                 };
 
             }
         }
 
 
+        /// <summary>
+        /// Sends a new consumption to the API for registration.
+        /// </summary>
+        /// <param name="consumption"></param>
+        /// <returns>A response with the result of the consumption creation.</returns>
         public async Task<Response> CreateConsumption(Consumption consumption)
         {
             try
@@ -450,17 +508,22 @@ namespace WaterManagementSystem.Wpf.Services
                     Message = result
                 };
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = ex.Message
+                    Message = "Não foi possível comunicar com o servidor. Verifique a ligação à internet ou tente novamente."
                 };
             } 
         }
 
-       public async Task<Response> UpdateConsumption(Consumption consumption)
+        /// <summary>
+        ///  Sends updated consumption data to the API.
+        /// </summary>
+        /// <param name="consumption"></param>
+        /// <returns>A response with the result of the consumption updated.</returns>
+        public async Task<Response> UpdateConsumption(Consumption consumption)
         {
             try
             {
@@ -486,16 +549,21 @@ namespace WaterManagementSystem.Wpf.Services
                     Message = result
                 };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = ex.Message
+                    Message = "Não foi possível comunicar com o servidor. Verifique a ligação à internet ou tente novamente."
                 };
             }
         }
 
+        /// <summary>
+        /// Requests the deletion of the consumption from the API.
+        /// </summary>
+        /// <param name="consumptionId"></param>
+        /// <returns>A response with the result of the consumption deleted.</returns>
         public async Task<Response> DeleteConsumption(int consumptionId)
         {
             try
@@ -518,16 +586,20 @@ namespace WaterManagementSystem.Wpf.Services
                     Message = result
                 };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = ex.Message
+                    Message = "Não foi possível comunicar com o servidor. Verifique a ligação à internet ou tente novamente."
                 };
             }
         }
 
+        /// <summary>
+        /// Gets all invoices from the API.
+        /// </summary>
+        /// <returns>A response containing the invoice list or an error message.</returns>
         public async Task<Response> GetInvoices()
         {
             try
@@ -553,16 +625,21 @@ namespace WaterManagementSystem.Wpf.Services
                     Result = invoices
                 };
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = ex.Message
+                    Message = "Não foi possível comunicar com o servidor. Verifique a ligação à internet ou tente novamente."
                 };
             }
         }
 
+        /// <summary>
+        ///  Gets a specific invoice by its identifier.
+        /// </summary>
+        /// <param name="invoiceId"></param>
+        /// <returns>A response containing the requested invoice or an error message.</returns>
         public async Task<Response> GetInvoiceById(int invoiceId)
         {
             try
@@ -589,16 +666,21 @@ namespace WaterManagementSystem.Wpf.Services
                 };
             }
 
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = ex.Message
+                    Message = "Não foi possível comunicar com o servidor. Verifique a ligação à internet ou tente novamente."
                 };
             }
         }
 
+        /// <summary>
+        ///  Searches for invoices using optional customer, date, payment,
+        /// and cancellation filters.
+        /// </summary>
+        /// <returns> A response containing the matching invoices or an error message.</returns>
         public async Task<Response> SearchInvoices(
             int? customerId,
             DateTime? startDate,
@@ -663,15 +745,22 @@ namespace WaterManagementSystem.Wpf.Services
                     Result = invoices
                 };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = ex.Message
+                    Message = "Não foi possível comunicar com o servidor. Verifique a ligação à internet ou tente novamente."
                 };
             }
         }
+
+
+        /// <summary>
+        /// Sends a new invoice to the API for registration.
+        /// </summary>
+        /// <param name="invoice"></param>
+        /// <returns>A response with the result of the invoice creation.</returns>
         public async Task<Response> CreateInvoice(Invoice invoice)
         {
             try
@@ -699,16 +788,22 @@ namespace WaterManagementSystem.Wpf.Services
                     Message = result
                 };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = ex.Message
+                    Message = "Não foi possível comunicar com o servidor. Verifique a ligação à internet ou tente novamente."
                 };
             }
         }
 
+
+        /// <summary>
+        ///  Sends updated invoice data to the API.
+        /// </summary>
+        /// <param name="invoice"></param>
+        /// <returns>A response with the result of the invoice updated.</returns>
         public async Task<Response> UpdateInvoice(Invoice invoice)
         {
             try
@@ -736,12 +831,12 @@ namespace WaterManagementSystem.Wpf.Services
                     Message = result
                 };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = ex.Message
+                    Message = "Não foi possível comunicar com o servidor. Verifique a ligação à internet ou tente novamente."
                 };
             }
         }

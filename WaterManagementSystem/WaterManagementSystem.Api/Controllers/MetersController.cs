@@ -58,7 +58,7 @@ namespace WaterManagementSystem.Api.Controllers
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, meterData));
             }
 
-            return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Not found"));
+            return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Contador não encontrado."));
         }
 
 
@@ -82,10 +82,10 @@ namespace WaterManagementSystem.Api.Controllers
                 })
                 .ToList();
 
-            //if (meters.Count == 0)
-            //{
-            //    return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "No meter has been registered for this customer yet."));
-            //}
+            if (meters.Count == 0)
+            {
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Este cliente ainda não possui contadores registados."));
+            }
 
             return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, meters));
 
@@ -103,7 +103,7 @@ namespace WaterManagementSystem.Api.Controllers
         {
             if (newMeter == null)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid meter data"));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "Dados do contador inválidos."));
             }
 
             // Finds the customer associated with the provided CustomerId.
@@ -111,7 +111,7 @@ namespace WaterManagementSystem.Api.Controllers
             
             if(customer == null)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Customer not found"));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Cliente não encontrado."));
             }
 
             //newMeter.InstallationDate = DateTime.SpecifyKind(newMeter.InstallationDate.Date, DateTimeKind.Unspecified);
@@ -129,7 +129,7 @@ namespace WaterManagementSystem.Api.Controllers
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.ServiceUnavailable, e));
             }
 
-            return ResponseMessage(Request.CreateResponse(HttpStatusCode.Created, "Meter created successfully."));
+            return ResponseMessage(Request.CreateResponse(HttpStatusCode.Created, "Contador criado com sucesso."));
         }
 
         // PUT: api/Meters/5
@@ -144,14 +144,14 @@ namespace WaterManagementSystem.Api.Controllers
             
             if(updateMeter == null)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid meter data!"));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "Dados do contador inválidos."));
             }
 
             Meter meter = dc.Meters.FirstOrDefault(m => m.MeterId == id);
 
             if(meter == null)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Meter not found!"));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Contador não encontrado."));
             }
 
             meter.IsActive = updateMeter.IsActive;
@@ -165,7 +165,7 @@ namespace WaterManagementSystem.Api.Controllers
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.ServiceUnavailable, e));
             }
 
-            return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, "Meter updated successfully."));
+            return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, "Contador atualizado com sucesso."));
         }
 
         // DELETE: api/Meters/5
@@ -181,14 +181,14 @@ namespace WaterManagementSystem.Api.Controllers
 
             if(meter == null)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Meter not found"));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Contador não encontrado."));
             }
 
             bool meterHasConsumptions = dc.Consumptions.Any(c => c.MeterId == id);
 
             if (meterHasConsumptions)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "Meter cannot be deleted because there are consumptions associated."));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "Contador não pode ser apagado porque existem consumos associados."));
             }
 
             dc.Meters.DeleteOnSubmit(meter);
@@ -202,7 +202,7 @@ namespace WaterManagementSystem.Api.Controllers
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.ServiceUnavailable, e));
             }
 
-            return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, "Meter deleted successfully."));
+            return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, "Contador apagado com sucesso."));
         }
     }
 }

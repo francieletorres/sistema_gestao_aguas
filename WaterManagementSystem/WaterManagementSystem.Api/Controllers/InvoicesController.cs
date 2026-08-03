@@ -72,7 +72,7 @@ namespace WaterManagementSystem.Api.Controllers
 
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, invoiceData));
             }
-            return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Invoice not found"));
+            return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Fatura não encontrada."));
         }
 
 
@@ -150,7 +150,7 @@ namespace WaterManagementSystem.Api.Controllers
 
             if (newInvoice == null)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid invoice data."));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "Dados da fatura inválidos."));
             }
 
             //procurar o consumo pelo consumoid, ou seja n cria fatura sem consumo
@@ -158,7 +158,7 @@ namespace WaterManagementSystem.Api.Controllers
 
             if (consumption == null)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Comsunption not found."));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Consumo não encontrado."));
             }
 
             //o any é um bool que confere se tem fatura, e impede duas faturas ativas para o mesmo consumo
@@ -166,7 +166,7 @@ namespace WaterManagementSystem.Api.Controllers
 
             if (hasInvoice)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "An invoice already exists for this consumption."));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "Já existe uma fatura para este consumo."));
             }
 
             //buscar o volume consumido do consumo encontrado
@@ -191,7 +191,7 @@ namespace WaterManagementSystem.Api.Controllers
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.ServiceUnavailable, e));
             }
 
-            return ResponseMessage(Request.CreateResponse(HttpStatusCode.Created, "Invoice created successfully."));
+            return ResponseMessage(Request.CreateResponse(HttpStatusCode.Created, "Fatuta criada com sucesso."));
 
         }
 
@@ -266,26 +266,26 @@ namespace WaterManagementSystem.Api.Controllers
         {
             if (updateInvoice == null)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid invoice data"));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "Dados da fatura inválidos."));
             }
 
             Invoice invoice = dc.Invoices.FirstOrDefault(i => i.InvoiceId == id);
 
             if (invoice == null)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Invoice not found."));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Fatura não encontrada."));
             }
 
             //nao pode pagar e cancelar ao mesmo tempo
             if(updateInvoice.IsCancelled == true && updateInvoice.IsPaid == true)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "Invoice cannot be paid and cancelled at the same time."));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.BadRequest, "A fatura não pode estar paga e cancelada ao mesmo tempo."));
             }
 
             //fatura cancelada nao pode ser editada
             if(invoice.IsCancelled == true)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "Cancelled invoices cannot be updated."));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "Faturas canceladas não podem ser atualizadas."));
             }
 
             //se está cancelada o ispaid deve ficar falso
@@ -309,7 +309,7 @@ namespace WaterManagementSystem.Api.Controllers
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.ServiceUnavailable, e));
             }
 
-            return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, "Invoice updated successfully."));
+            return ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, "Fatura atualizada com sucesso."));
 
         }
     }

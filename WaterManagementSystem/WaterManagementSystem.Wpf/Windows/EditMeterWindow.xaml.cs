@@ -15,9 +15,7 @@ using WaterManagementSystem.Wpf.Services;
 
 namespace WaterManagementSystem.Wpf.Windows
 {
-    /// <summary>
-    /// Interaction logic for EditMeterWindow.xaml
-    /// </summary>
+ 
     public partial class EditMeterWindow : Window
     {
 
@@ -52,7 +50,7 @@ namespace WaterManagementSystem.Wpf.Windows
 
             if (response.IsSuccess)
             {
-                MessageBox.Show("Meter updated successfully!",
+                MessageBox.Show("Contador atualizado com sucesso.",
                     "Sucess",
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);

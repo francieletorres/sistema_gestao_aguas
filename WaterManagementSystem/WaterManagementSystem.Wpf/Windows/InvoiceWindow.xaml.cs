@@ -17,9 +17,7 @@ using WaterManagementSystem.Wpf.Services;
 
 namespace WaterManagementSystem.Wpf.Windows
 {
-    /// <summary>
-    /// Interaction logic for InvoiceWindow.xaml
-    /// </summary>
+    
     public partial class InvoiceWindow : Window
     {
         private readonly ApiService _apiService;
@@ -37,6 +35,9 @@ namespace WaterManagementSystem.Wpf.Windows
             await LoadInvoices();
         }
 
+        /// <summary>
+        /// Loads all invoices from the API and displays them in the invoices DataGrid.
+        /// </summary>
         private async Task LoadInvoices()
         {
             Response response = await _apiService.GetInvoices();
@@ -55,6 +56,10 @@ namespace WaterManagementSystem.Wpf.Windows
             }
         }
 
+        /// <summary>
+        /// Loads all customers from the API and displays them in the customer
+        /// selection and filter ComboBoxes.
+        /// </summary>
         private async Task LoadCustomers()
         {
             Response response = await _apiService.GetCustomers();
@@ -90,6 +95,10 @@ namespace WaterManagementSystem.Wpf.Windows
             await LoadMeters(selectedCustomer.CustomerId);
         }
 
+        /// <summary>
+        /// Loads the meters associated with the specified customer
+        /// and displays them in the meter ComboBox.
+        /// </summary>
         private async Task LoadMeters(int customerId)
         {
             Response response =
@@ -125,6 +134,11 @@ namespace WaterManagementSystem.Wpf.Windows
             await LoadConsumptions(selectedMeter.MeterId);
         }
 
+
+        /// <summary>
+        /// Loads the consumptions associated with the specified meter
+        /// and displays them in the consumption ComboBox.
+        /// </summary>
         private async Task LoadConsumptions(int meterId)
         {
             Response response = await _apiService.GetConsumptionsByMeter(meterId);
@@ -145,12 +159,17 @@ namespace WaterManagementSystem.Wpf.Windows
             }
         }
 
+        /// <summary>
+        /// Clears the selected customer and removes the available meters
+        /// and consumptions from the ComboBoxes.
+        /// </summary>
         private void ClearFields()
         {
             cbCustomers.SelectedItem = null;
             cbMeters.ItemsSource = null;
             cbConsumptions.ItemsSource = null;
         }
+
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
             ClearFields();
@@ -186,7 +205,7 @@ namespace WaterManagementSystem.Wpf.Windows
 
                 await SearchInvoicesAsync();
 
-                MessageBox.Show(response.Message,
+                MessageBox.Show("Fatura registada com sucesso.",
                     "Sucesso",
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);
@@ -200,6 +219,9 @@ namespace WaterManagementSystem.Wpf.Windows
             }
         }
 
+        /// <summary>
+        ///  Clears all invoice filter fields and reloads the complete invoice list.
+        /// </summary>
         private async Task ClearFilterFields()
         {
             cbFilterCustomer.SelectedItem = null;
@@ -209,6 +231,7 @@ namespace WaterManagementSystem.Wpf.Windows
 
             await LoadInvoices();
         }
+
         private async void btnClearFilters_Click(object sender, RoutedEventArgs e)
         {
             await ClearFilterFields();
@@ -219,6 +242,10 @@ namespace WaterManagementSystem.Wpf.Windows
             await SearchInvoicesAsync();
         }
 
+
+        /// <summary>
+        /// Applies the selected invoice filters and displays the matching results.
+        /// </summary>
         private async Task SearchInvoicesAsync()
         {
             int? customerId = null;

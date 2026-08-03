@@ -72,7 +72,7 @@ namespace WaterManagementSystem.Wpf.Windows
 
                 if (response.IsSuccess)
                 {
-                    MessageBox.Show("Customer registered successfully!",
+                    MessageBox.Show("Cliente registado com sucesso.",
                         "Success",
                         MessageBoxButton.OK,
                         MessageBoxImage.Information);
@@ -90,6 +90,9 @@ namespace WaterManagementSystem.Wpf.Windows
             }
         }
 
+        /// <summary>
+        /// Clears all customer form fields.
+        /// </summary>
         private void ClearFields()
         {
             txtName.Text = string.Empty;
@@ -99,12 +102,15 @@ namespace WaterManagementSystem.Wpf.Windows
             txtEmail.Text = string.Empty;
         }
 
+        /// <summary>
+        /// Validates the customer form fields.
+        /// </summary>
         private bool ValidateForm()
         {
 
             if (string.IsNullOrWhiteSpace(txtName.Text) || !Regex.IsMatch(txtName.Text, @"^[A-Za-zÀ-ÿ ]+$"))
             {
-                MessageBox.Show("Please enter a valid customer name.",
+                MessageBox.Show("Por favor, introduza um nome de cliente válido.",
                      "Validation error",
                      MessageBoxButton.OK,
                      MessageBoxImage.Error);
@@ -114,7 +120,7 @@ namespace WaterManagementSystem.Wpf.Windows
 
             if (string.IsNullOrWhiteSpace(txtPhone.Text) || !Regex.IsMatch(txtPhone.Text, @"^[239]\d{8}$"))
             {
-                MessageBox.Show("Please enter a valid phone number.",
+                MessageBox.Show("Por favor, introduza um contacto válido.",
                      "Validation error",
                      MessageBoxButton.OK,
                      MessageBoxImage.Error);
@@ -122,9 +128,9 @@ namespace WaterManagementSystem.Wpf.Windows
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(txtAddress.Text))
+            if (string.IsNullOrWhiteSpace(txtTaxNumber.Text) || !Regex.IsMatch(txtTaxNumber.Text, @"^\d{9}$"))
             {
-                MessageBox.Show("Please enter the address.",
+                MessageBox.Show("Por favor, introduza um NIF válido.",
                     "Validation error",
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
@@ -132,9 +138,9 @@ namespace WaterManagementSystem.Wpf.Windows
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(txtTaxNumber.Text) || !Regex.IsMatch(txtTaxNumber.Text, @"^\d{9}$"))
+            if (string.IsNullOrWhiteSpace(txtAddress.Text))
             {
-                MessageBox.Show("Please enter a valid tax number.",
+                MessageBox.Show("Por favor, introduza a morada.",
                     "Validation error",
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
@@ -144,7 +150,7 @@ namespace WaterManagementSystem.Wpf.Windows
 
             if (string.IsNullOrWhiteSpace(txtEmail.Text) || !Regex.IsMatch(txtEmail.Text, @"^[\w\.-]+@([\w-]+\.)+[\w-]{2,}$"))
             {
-                MessageBox.Show("Please enter a valid email address.",
+                MessageBox.Show("Por favor, introduza um endereço de e-mail válido.",
                     "Validation error",
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
@@ -165,7 +171,7 @@ namespace WaterManagementSystem.Wpf.Windows
 
             if(dgCustomers.SelectedItem == null)
             {
-                MessageBox.Show("Please select a customer.",
+                MessageBox.Show("Por favor, selecione um cliente.",
                     "Warning",
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning); 
@@ -184,7 +190,7 @@ namespace WaterManagementSystem.Wpf.Windows
         {
             if (dgCustomers.SelectedItem == null)
             {
-                MessageBox.Show("Please select a customer.",
+                MessageBox.Show("Por favor, selecione um cliente.",
                     "Warning",
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
@@ -194,7 +200,7 @@ namespace WaterManagementSystem.Wpf.Windows
             //guarda o cliente selecionado no Datagrid
             Customer customerToDelete = (Customer)dgCustomers.SelectedItem;
 
-            MessageBoxResult confirmation = MessageBox.Show("Are you sure you want to delete this customer?",
+            MessageBoxResult confirmation = MessageBox.Show("Tem a certeza de que pretende eliminar este cliente?",
                 "Confirmation",
                 MessageBoxButton.OKCancel,
                 MessageBoxImage.Question);
@@ -206,7 +212,7 @@ namespace WaterManagementSystem.Wpf.Windows
 
                 if (deleteResponse.IsSuccess)
                 {
-                    MessageBox.Show("Customer deleted successfully!",
+                    MessageBox.Show("Cliente elimiando com sucesso.",
                         "Success",
                         MessageBoxButton.OK,
                         MessageBoxImage.Information);

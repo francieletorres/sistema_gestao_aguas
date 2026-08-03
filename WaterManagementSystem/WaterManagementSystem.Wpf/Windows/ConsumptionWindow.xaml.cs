@@ -101,9 +101,9 @@ namespace WaterManagementSystem.Wpf.Windows
             {
                 dgConsumptions.ItemsSource = null; //limpa os dados em caso de erro
 
-                MessageBox.Show(response.Message, "error",
+                MessageBox.Show(response.Message, "Aviso",
                    MessageBoxButton.OK,
-                   MessageBoxImage.Error);
+                   MessageBoxImage.Information);
             }
         }
 
@@ -111,7 +111,7 @@ namespace WaterManagementSystem.Wpf.Windows
         {
             if(cbMeters.SelectedItem == null)
             {
-                MessageBox.Show("Please select a meter",
+                MessageBox.Show("Por favor, selecione um contador.",
                     "Validation",
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
@@ -121,7 +121,7 @@ namespace WaterManagementSystem.Wpf.Windows
 
             if(!int.TryParse(txtMeterReading.Text, out int meterReading))
             {
-                MessageBox.Show("Please enter a valid meter reading.",
+                MessageBox.Show("Por favor, introduza uma leitura válida no contador.",
                     "Validation",
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
@@ -145,7 +145,7 @@ namespace WaterManagementSystem.Wpf.Windows
 
             if (response.IsSuccess)
             {
-                MessageBox.Show("Consumption registered successfully!",
+                MessageBox.Show("Consumo registado com sucesso.",
                     "Success",
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);
@@ -163,6 +163,10 @@ namespace WaterManagementSystem.Wpf.Windows
             }
         }
 
+        /// <summary>
+        /// Clears the consumption form fields and removes the current
+        /// selection from the consumptions DataGrid.
+        /// </summary>
         private void ClearFields()
         {
             cbCustomers.SelectedItem = null;
@@ -196,7 +200,7 @@ namespace WaterManagementSystem.Wpf.Windows
             if (dgConsumptions.SelectedItem == null)
             {
                 MessageBox.Show(
-                    "Please select a consumption.",
+                    "Por favor, selecione um consumo.",
                     "Warning",
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
@@ -208,7 +212,7 @@ namespace WaterManagementSystem.Wpf.Windows
 
             if (consumptionToEdit.HasInvoice)
             {
-                MessageBox.Show("This consumption has already been invoiced and cannot be edited.",
+                MessageBox.Show("Este consumo já foi faturado e não pode ser editado.",
                     "Warning",
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
@@ -227,7 +231,7 @@ namespace WaterManagementSystem.Wpf.Windows
         {
             if(dgConsumptions.SelectedItem == null)
             {
-                MessageBox.Show("Please select a consumption.",
+                MessageBox.Show("Por favor, selecione um consumo.",
                     "warning",
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
@@ -239,7 +243,7 @@ namespace WaterManagementSystem.Wpf.Windows
 
             if (consumptionToDelete.HasInvoice)
             {
-                MessageBox.Show("This consumption has already been invoiced and cannot be deleted.",
+                MessageBox.Show("Este consumo já foi faturado e não pode ser eliminado.",
                     "Warning",
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
@@ -248,7 +252,7 @@ namespace WaterManagementSystem.Wpf.Windows
             }
 
             MessageBoxResult confirmation = MessageBox.Show(
-                "Are you sure you want to delete this consumption?",
+                "Tem a certeza de que pretende eliminar este consumo?",
                 "Confirmation",
                 MessageBoxButton.OKCancel,
                 MessageBoxImage.Question);
@@ -260,7 +264,7 @@ namespace WaterManagementSystem.Wpf.Windows
                 if (deleteResponse.IsSuccess)
                 {
                     MessageBox.Show(
-                        "Consumption deleted successfully!",
+                        "Consumo eliminado com sucesso.",
                         "Success",
                         MessageBoxButton.OK,
                         MessageBoxImage.Information);
