@@ -114,7 +114,7 @@ namespace WaterManagementSystem.Api.Controllers
                 return ResponseMessage(Request.CreateResponse(HttpStatusCode.NotFound, "Cliente não encontrado."));
             }
 
-            //newMeter.InstallationDate = DateTime.SpecifyKind(newMeter.InstallationDate.Date, DateTimeKind.Unspecified);
+            newMeter.InstallationDate = DateTime.SpecifyKind(newMeter.InstallationDate.Date, DateTimeKind.Unspecified);
 
             newMeter.IsActive = true;
 

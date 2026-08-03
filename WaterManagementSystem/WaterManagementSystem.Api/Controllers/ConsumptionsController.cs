@@ -143,11 +143,16 @@ namespace WaterManagementSystem.Api.Controllers
             }
 
             //verifica se existe uma leitura para esse mesmo meterId na mesma data
-            bool readingAlreadyExists = dc.Consumptions.Any(c => c.MeterId == newConsumption.MeterId && c.ReadingDate.Date == newConsumption.ReadingDate.Date);
+
+            DateTime firstDayOfMonth = new DateTime(newConsumption.ReadingDate.Year,newConsumption.ReadingDate.Month,1);
+
+            DateTime firstDayOfNextMonth = firstDayOfMonth.AddMonths(1);
+
+            bool readingAlreadyExists = dc.Consumptions.Any(c => c.MeterId == newConsumption.MeterId && c.ReadingDate >= firstDayOfMonth && c.ReadingDate < firstDayOfNextMonth);
 
             if (readingAlreadyExists)
             {
-                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "Já existe uma leitura para este contador nesta data."));
+                return ResponseMessage(Request.CreateResponse(HttpStatusCode.Conflict, "Já existe uma leitura para este contador este mês."));
             }
 
             // Busca a leitura anterior do contador e calcula o volume consumido

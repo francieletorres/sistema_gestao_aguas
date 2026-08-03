@@ -10,6 +10,8 @@ namespace WaterManagementSystem.Api
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
+            config.Formatters.JsonFormatter.SerializerSettings.DateTimeZoneHandling =
+            Newtonsoft.Json.DateTimeZoneHandling.Unspecified;
 
             // Web API routes
             config.MapHttpAttributeRoutes();

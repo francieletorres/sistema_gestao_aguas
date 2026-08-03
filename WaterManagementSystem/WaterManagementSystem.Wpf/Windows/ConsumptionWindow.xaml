@@ -323,7 +323,7 @@
                             Cursor="Hand"/>
 
                     <Button x:Name="btnDelete"
-                            Content="Eliminar"
+                            Content="Apagar"
                             Click="btnDelete_Click"
                             Width="110"
                             Height="36"

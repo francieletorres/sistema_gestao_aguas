@@ -26,7 +26,7 @@ namespace WaterManagementSystem.Wpf.Windows
             InitializeComponent();
             _apiService = new ApiService();
 
-            dpReadingDate.SelectedDate = DateTime.Today;
+            dpReadingDate.SelectedDate = DateTime.Now;
         }
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
@@ -173,7 +173,7 @@ namespace WaterManagementSystem.Wpf.Windows
             cbMeters.SelectedItem = null;
             txtMeterReading.Text = string.Empty;
             txtNotes.Text = string.Empty;
-            dpReadingDate.SelectedDate = DateTime.Today;
+            dpReadingDate.SelectedDate = DateTime.Now;
             dgConsumptions.SelectedItem = null; //tira a seleção da linha que estiver marcada na DataGrid
         }
 
